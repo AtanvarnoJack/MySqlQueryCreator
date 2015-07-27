@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * Created by alco on 06/07/2015.
+ * ExcelReader contain method to read the Excel File For SqlCreator App.
  */
 public class ExcelReaderImpl implements ExcelReader {
      private Workbook workbook;
@@ -22,23 +23,22 @@ public class ExcelReaderImpl implements ExcelReader {
         this.workbook = takeReader(file);
     }
 
-    @Override
-    public Workbook takeReader(String path) throws IOException, BiffException {
+    private Workbook takeReader(String path) throws IOException, BiffException {
        return Workbook.getWorkbook(new File(path));
     }
 
-    @Override
-    public Workbook takeReader(File file) throws IOException, BiffException {
+
+    private Workbook takeReader(File file) throws IOException, BiffException {
         return Workbook.getWorkbook(file);
     }
 
-    @Override
-    public Sheet getSheetInt(int sheet) {
+
+    private Sheet getSheetInt(int sheet) {
         return workbook.getSheet(sheet);
     }
 
-    @Override
-    public Sheet getSheetName(String trigger) throws IllegalArgumentException{
+
+    private Sheet getSheetName(String trigger) throws IllegalArgumentException {
         Sheet sheet = workbook.getSheet(trigger);
         if (sheet == null){
             throw new IllegalArgumentException("No Sheet have this Name!");

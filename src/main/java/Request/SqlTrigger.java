@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * Created by alco on 03/07/2015.
+ *  Contain all Trigger Request
  */
 public class SqlTrigger {
     public static final double REQUEST_NUMBER_VERSION_CHANGE = 5.1;
