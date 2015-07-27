@@ -7,8 +7,12 @@ import java.util.List;
  * Created by alco on 03/07/2015.
  */
 public class SqlTrigger {
-
     public static final double REQUEST_NUMBER_VERSION_CHANGE = 5.1;
+    private final static String TRIGGER = "Trigger";
+
+    public static String getTrigger() {
+        return TRIGGER;
+    }
 
     public String toStringGetAll(List<String> tableNameList, List<String> champNameList, List<String> conditionList,  double currentVersion) {
         return getAllDropIfExist(tableNameList) + "\n" + createSqlTriggerList(tableNameList, champNameList, conditionList, currentVersion);
@@ -145,5 +149,4 @@ public class SqlTrigger {
 
         return bool;
     }
-
 }

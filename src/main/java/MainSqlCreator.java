@@ -8,7 +8,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-
 import javafx.stage.Stage;
 import jxl.read.biff.BiffException;
 
@@ -49,7 +48,7 @@ public class MainSqlCreator extends Application implements Initializable {
         File file = mainView.getExcelFile(stage);
         if (file != null) {
             try {
-                String allRequest = mainView.procedure(file);
+                String allRequest = mainView.procedureCreateRequest(file);
                 labelOutput.setText(allRequest);
                 infoOutput.setText("End! File Request.sql created on desktop!");
 
