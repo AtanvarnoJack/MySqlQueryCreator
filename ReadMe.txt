@@ -5,4 +5,4 @@ No Base in SQL is necessary!
 
 Just for fun!
 
-Open SqlCreator.jar in zipped filled for lunch compiled programs!
+Open SqlCreator.jar in zipped file to run compiled programs!
