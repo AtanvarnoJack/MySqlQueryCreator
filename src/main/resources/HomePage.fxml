@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<?import javafx.scene.layout.HBox?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="AnchorPane" prefHeight="600.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/8" fx:controller="MainSqlCreator">
+    <children >
+        <HBox alignment="CENTER" AnchorPane.topAnchor="14" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+            <Label AnchorPane.topAnchor="14" text="SQL Request Creator">
+                <font>
+                    <Font name="Arial Black" size="36.0"/>
+                </font>
+            </Label>
+        </HBox>
+        <HBox alignment="CENTER" AnchorPane.topAnchor="80" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+            <Button mnemonicParsing="false" onAction="#handleButtonActionOpenFile"
+                    prefHeight="25.0" prefWidth="226.0" text="Open a File">
+            </Button>
+        </HBox>
+        <Label fx:id="infoOutput" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="145" text="Choose a file please!">
+            <font>
+                <Font name="Arial Black" size="14.0"/>
+            </font>
+        </Label>
+
+        <HBox alignment="CENTER" AnchorPane.rightAnchor="0" layoutY="148">
+            <Button mnemonicParsing="false" onAction="#handleButtonCopy"
+                    text="Copy">
+            </Button>
+            <Label prefWidth="5.0" text=" ">
+            </Label>
+            <Button mnemonicParsing="false" onAction="#handleButtonActionExport"
+                    prefHeight="25.0" text="Export">
+            </Button>
+        </HBox>
+        <ScrollPane layoutY="150" AnchorPane.bottomAnchor="50" AnchorPane.topAnchor="200" AnchorPane.rightAnchor="0" AnchorPane.leftAnchor="0">
+            <Label fx:id="labelOutput" >
+                <font>
+                    <Font name="Arial Black" size="12.0"/>
+                </font>
+            </Label>
+        </ScrollPane>
+
+        <Button mnemonicParsing="false" onAction="#handleButtonActionHelp" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0"
+                 text="?">
+        </Button>
+
+        <Label text="MySql Version Number:" AnchorPane.leftAnchor="0" AnchorPane.bottomAnchor="15">
+            <font>
+                <Font name="Arial Black" size="12.0"/>
+            </font>
+        </Label>
+
+        <TextArea fx:id="textAreaMysqlVersion" prefHeight="10.0" prefWidth="10.0" AnchorPane.leftAnchor="160" AnchorPane.bottomAnchor="0"></TextArea>
+    </children>
+</AnchorPane>
