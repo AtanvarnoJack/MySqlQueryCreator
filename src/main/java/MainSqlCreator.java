@@ -44,22 +44,22 @@ public class MainSqlCreator extends Application implements Initializable {
     private void handleButtonActionOpenFile(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         mainView = new MainView(stage);
-        infoOutput.setText("Request!");
+        // infoOutput.setText("Request!");
 
         File file = mainView.getExcelFile(stage);
         if (file != null) {
             try {
                 String allRequest = mainView.procedureCreateRequest(file);
                 labelOutput.setText(allRequest);
-                infoOutput.setText("End! File Request.sql created on desktop!");
+                infoOutput.setText("End! Find your request below!");
 
-                System.out.println("Request = " + allRequest);
+                // System.out.println("Request = " + allRequest);
             }catch (IllegalArgumentException IAE){
-                infoOutput.setText("Request aborded!");
+                infoOutput.setText("Request aborted!");
                 mainView.getDialogs().dialogBadFileFormat();
                 labelOutput.setText("Please select a file with a type format for SqlCreator! \n\n" + IAE + "\n\nSee Help! (Button '?')");
             }catch (BiffException e) {
-                infoOutput.setText("Request abord!");
+                infoOutput.setText("Request aborted!");
                 mainView.getDialogs().dialogBadFileFormat();
                 labelOutput.setText("Please select a file with a type format for SqlCreator! \nSee Help! (Button '?')");
             }
@@ -70,9 +70,13 @@ public class MainSqlCreator extends Application implements Initializable {
     public void handleButtonActionExport(ActionEvent actionEvent) {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         mainView = new MainView(stage);
-        mainView.export(labelOutput.getText());
-        infoOutput.setText("File Exported!");
-
+        try {
+            mainView.export(labelOutput.getText());
+            infoOutput.setText("Text has been exported in the file you specified!");
+        } catch (IllegalArgumentException IAE) {
+            mainView.getDialogs().dialogNoData();
+            infoOutput.setText("There is nothing to export...");
+        }
     }
 
     @FXML
@@ -92,7 +96,7 @@ public class MainSqlCreator extends Application implements Initializable {
             infoOutput.setText("Text has been saved in clipboard!");
         } catch (IllegalArgumentException IAE) {
             mainView.getDialogs().dialogNoData();
-            infoOutput.setText("Can't copy a null text!");
+            infoOutput.setText("There is nothing to copy...");
         }
 
     }
@@ -111,7 +115,7 @@ public class MainSqlCreator extends Application implements Initializable {
                     mainView.setMySqlVersion(parseDouble);
                 } catch (NumberFormatException NFE) {
                     mainView.getDialogs().dialogBadNumber();
-                    labelOutput.setText("Please choise a valid mysql version number! \n\n" + NFE + "\n\nSee Help! (Button '?')");
+                    labelOutput.setText("Please choose a valid mysql version number! \n\n" + NFE + "\n\nSee Help! (Button '?')");
                 }
             }
         });
