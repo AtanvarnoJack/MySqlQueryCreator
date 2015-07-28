@@ -21,6 +21,15 @@ public class Dialogs {
                 .showError();
     }
 
+    public void dialogNoData() {
+        org.controlsfx.dialog.Dialogs.create()
+                .owner(stage)
+                .title("No Data")
+                .masthead("No text to copy!")
+                .message("There is nothing to copy!\n Please execute the programs before!")
+                .showError();
+    }
+
     public void dialogBadNumber() {
         org.controlsfx.dialog.Dialogs.create()
                 .owner(stage)
