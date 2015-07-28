@@ -1,4 +1,4 @@
-package Request;
+package Request.Analytics;
 
 import java.util.List;
 

@@ -4,7 +4,7 @@
 
 import ExcelReader.LoaderExcel;
 import Reference.Const;
-import Request.SqlTrigger;
+import Request.MySQL.Query.SqlTrigger;
 import org.testng.annotations.Test;
 
 public class TestSqlTriggerCreate {

@@ -1,4 +1,6 @@
-package Request;
+package Request.MySQL.Query;
+
+import Request.Analytics.Analytics;
 
 import java.util.ArrayList;
 import java.util.List;
