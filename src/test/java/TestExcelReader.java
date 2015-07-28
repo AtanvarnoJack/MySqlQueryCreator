@@ -2,22 +2,9 @@
  * Created by alco on 06/07/2015.
  */
 
-import ExcelReader.*;
-import ExcelReader.LoaderExcel;
-import jxl.Sheet;
-import jxl.Workbook;
-import jxl.read.biff.BiffException;
-import org.testng.annotations.Test;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
-import static org.fest.assertions.api.Assertions.assertThat;
-
 public class TestExcelReader {
     private static final String OCDE_FILE = "ExampleFile.xls";
-
+/*
     @Test
     public void shouldGetRateFile(){
         try {
@@ -126,7 +113,7 @@ public class TestExcelReader {
     /****
      * Loader
      */
-
+/*
     @Test
     public void shouldLoadAllData(){
         LoaderExcel loader = new LoaderExcel();
