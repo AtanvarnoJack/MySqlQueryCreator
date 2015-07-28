@@ -66,7 +66,7 @@ public class LoaderExcel {
             }else if (title.equals(TITLE_NAME_CONDITION)){
                 this.conditionList.addAll(excelReader.getColumn(SHEET_NAME, excelReader.getTitlePos(SHEET_NAME, TITLE_NAME_CONDITION)));
             }else if (title.equals(TITLE_TYPE)){
-                this.typeList.addAll(excelReader.getColumn(SHEET_NAME, excelReader.getTitlePos(SHEET_NAME, TITLE_TYPE)));
+                this.typeList.addAll(excelReader.getColumnUpper(SHEET_NAME, excelReader.getTitlePos(SHEET_NAME, TITLE_TYPE)));
             }else{
                 throw new IllegalArgumentException("champs hors configuration!");
             }

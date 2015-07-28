@@ -21,6 +21,7 @@ import java.awt.datatransfer.StringSelection;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -50,12 +51,6 @@ public class MainView {
             "For an Empty file see\"EmptyFile.xls\" in application repository.";
     //Variables:
     private static double mySqlVersion = 5.6;
-    private static Date date;
-    private final static String HEADER_REQUEST = "/**************************************************\n" +
-            "*  Request created by " + SQL_CREATOR + "!\n" +
-            "*  Date: " + date.getDate() + "/" + (date.getMonth() + 1) + "/" + (date.getYear() + 1900) + "\n" +
-            "*  Author: " + System.getProperty("user.name") + "\n" +
-            "**************************************************/";
     private Stage stage;
     private Dialogs dialogs;
 
@@ -190,8 +185,13 @@ public class MainView {
         java.util.List<String> conditionList = loaderExcel.getConditionList();
 
         java.util.List<String> allRequestList = createAllRequest(typeListSort, typeList, tableList, champsList, conditionList);
-
-        String allRequest = HEADER_REQUEST;
+        Date date = new Date();
+        String allRequest = "/**************************************************\n" +
+                "*  Request created by " + SQL_CREATOR + "!\n" +
+                "*  Date: " + date.getDate() + "/" + (date.getMonth() + 1) + "/" + (date.getYear() + 1900) + "\n" +
+                "*  Author: " + System.getProperty("user.name") + "\n" +
+                "**************************************************/";
+        ;
 
         for (String request : allRequestList) {
             allRequest = allRequest + "\n\n" + request;
@@ -209,7 +209,8 @@ public class MainView {
      * @param conditionList
      * @return
      */
-    private java.util.List<String> createAllRequest(java.util.List<String> typeListSort, java.util.List<String> typeList, java.util.List<String> tableList, java.util.List<String> champsList, java.util.List<String> conditionList) {
+    private java.util.List<String> createAllRequest(java.util.List<String> typeListSort, java.util.List<String> typeList, java.util.List<String> tableList, java.util.List<String> champsList, java.util.List<String> conditionList)
+            throws IllegalArgumentException {
         java.util.List<String> tableListPrepare = new ArrayList<String>();
         java.util.List<String> champsListPrepare = new ArrayList<String>();
         java.util.List<String> conditionListPrepare = new ArrayList<String>();
@@ -220,33 +221,65 @@ public class MainView {
             tableListPrepare.clear();
             champsListPrepare.clear();
             conditionListPrepare.clear();
-            if (type.equals(SqlTrigger.getTrigger()) || type.equals(SqlAlter.getAlterToInnodb()) || type.equals(SqlAlter.getAlterToMyisam())){
-                for (int i = 0; i< typeList.size(); i++){
-                    if (type.equals(typeList.get(i))){
-                        tableListPrepare.add(tableList.get(i));
-                        champsListPrepare.add(champsList.get(i));
-                        conditionListPrepare.add(conditionList.get(i));
-                    }
+            for (int i = 0; i < typeList.size(); i++) {
+                if (type.equals(typeList.get(i))) {
+                    tableListPrepare.add(tableList.get(i));
+                    champsListPrepare.add(champsList.get(i));
+                    conditionListPrepare.add(conditionList.get(i));
                 }
-                if (type.equals(SqlTrigger.getTrigger())){
-                    SqlTrigger sqlTrigger = new SqlTrigger();
-                    allRequestList.add(sqlTrigger.getAllDropIfExist(tableListPrepare));
-                    allRequestList.add(sqlTrigger.createSqlTriggerList(tableListPrepare, champsListPrepare, conditionListPrepare, mySqlVersion));
-                }else if (type.equals(SqlAlter.getAlterToInnodb())){
-                    //TODO convert "AlterToInnodb" to  "Alter:Engine:Innodb" with split declaration for detect all alter;
-                    SqlAlter sqlAlter = new SqlAlter();
-                    allRequestList.add(sqlAlter.getAllAlterTableEngine(tableListPrepare, SqlAlter.getAlterToInnodb()));
-                }else if (type.equals(SqlAlter.getAlterToMyisam())){
-                    SqlAlter sqlAlter = new SqlAlter();
-                    allRequestList.add(sqlAlter.getAllAlterTableEngine(tableListPrepare,SqlAlter.getAlterToMyisam()));
-                }else {
-
-                }
-            } else {
-                throw new IllegalArgumentException("Type not use in " + SQL_CREATOR + "!");
             }
+            detectionType(tableListPrepare, champsListPrepare, conditionListPrepare, allRequestList, type);
         }
         return allRequestList;
+    }
+
+    /**
+     * detectionType cast all type in different name and calling associated Request Creator
+     *
+     * @param tableListPrepare
+     * @param champsListPrepare
+     * @param conditionListPrepare
+     * @param allRequestList
+     * @param type
+     */
+    private void detectionType(java.util.List<String> tableListPrepare, java.util.List<String> champsListPrepare, java.util.List<String> conditionListPrepare, java.util.List<String> allRequestList, String type)
+            throws IllegalArgumentException {
+        String[] architectureType = type.trim().toUpperCase().split(":");
+
+        if (architectureType.length != 0) {
+            if (architectureType[0].equals(SqlTrigger.getTrigger())) {
+                SqlTrigger sqlTrigger = new SqlTrigger();
+                allRequestList.add(sqlTrigger.createListSqlDropIfExist(tableListPrepare));
+                allRequestList.add(sqlTrigger.createSqlTriggerList(tableListPrepare, champsListPrepare, conditionListPrepare, mySqlVersion));
+            } else if (architectureType[0].equals(SqlAlter.getAlter())) {
+                if (architectureType.length == 3) {
+                    if (architectureType[1].equals(SqlAlter.getEngine())) {
+                        if (architectureType[2].equals(SqlAlter.getInnodb())) {
+                            SqlAlter sqlAlter = new SqlAlter();
+                            allRequestList.add(sqlAlter.getAllAlterTableEngine(tableListPrepare, SqlAlter.getInnodb()));
+                        } else if (architectureType[2].equals(SqlAlter.getMyisam())) {
+                            SqlAlter sqlAlter = new SqlAlter();
+                            allRequestList.add(sqlAlter.getAllAlterTableEngine(tableListPrepare, SqlAlter.getMyisam()));
+                        } else {
+                            throw new IllegalArgumentException("Architecture Type is not correct!\n" +
+                                    " Engine Name:" + architectureType[2] + " for " + Arrays.toString(architectureType));
+                        }
+                    } else {
+                        throw new IllegalArgumentException("Architecture Type is not correct!\n" +
+                                "Alter Type: " + architectureType[1] + " for " + Arrays.toString(architectureType));
+                    }
+                } else {
+                    throw new IllegalArgumentException("Architecture Type is not correct!\n" +
+                            "Type: " + architectureType[0] + " for " + Arrays.toString(architectureType));
+                }
+            } else {
+                throw new IllegalArgumentException("Architecture Type is not correct!\n" +
+                        "Rows: " + Arrays.toString(architectureType));
+            }
+        } else {
+            throw new IllegalArgumentException("Type is not correct!\n" +
+                    "Type: " + type);
+        }
     }
 
     /**
@@ -258,17 +291,18 @@ public class MainView {
     private java.util.List<String> sortByType(java.util.List<String> typeList) {
         java.util.List<String> allTypeInFile = new ArrayList<String>();
         for (String type : typeList) {
+            String typeMod = type.trim().toUpperCase();
             Boolean existType = false;
             if (allTypeInFile.isEmpty()) {
-                allTypeInFile.add(type);
+                allTypeInFile.add(typeMod);
             } else {
                 for (String typeInFile : allTypeInFile) {
-                    if (typeInFile.equals(type)) {
+                    if (typeInFile.equals(typeMod)) {
                         existType = true;
                     }
                 }
                 if (!existType) {
-                    allTypeInFile.add(type);
+                    allTypeInFile.add(typeMod);
                 }
             }
         }

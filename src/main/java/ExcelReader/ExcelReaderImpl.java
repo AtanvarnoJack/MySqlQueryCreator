@@ -94,6 +94,17 @@ public class ExcelReaderImpl implements ExcelReader {
         return valueList;
     }
 
+    @Override
+    public List<String> getColumnUpper(String sheetName, int column) {
+        List<String> valueList = new ArrayList<String>();
+        Sheet sheet = workbook.getSheet(sheetName);
+        int numberRows = sheet.getRows();
+        for (int i = 1; i < numberRows; i++) {
+            valueList.add(sheet.getCell(column, i).getContents().trim().toUpperCase());
+        }
+        return valueList;
+    }
+
     public Workbook getWorkbook() {
         return workbook;
     }

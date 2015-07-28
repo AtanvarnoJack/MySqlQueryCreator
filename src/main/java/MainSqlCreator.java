@@ -56,7 +56,7 @@ public class MainSqlCreator extends Application implements Initializable {
             }catch (IllegalArgumentException IAE){
                 infoOutput.setText("Request aborded!");
                 mainView.getDialogs().dialogBadFileFormat();
-                labelOutput.setText("Please select a file with a type format for SqlCreator! \nSee Help! (Button '?')");
+                labelOutput.setText("Please select a file with a type format for SqlCreator! \n\n" + IAE + "\n\nSee Help! (Button '?')");
             }catch (BiffException e) {
                 infoOutput.setText("Request abord!");
                 mainView.getDialogs().dialogBadFileFormat();
@@ -100,6 +100,7 @@ public class MainSqlCreator extends Application implements Initializable {
                     mainView.setMySqlVersion(parseDouble);
                 } catch (NumberFormatException NFE) {
                     mainView.getDialogs().dialogBadNumber();
+                    labelOutput.setText("Please choise a valid mysql version number! \n\n" + NFE + "\n\nSee Help! (Button '?')");
                 }
             }
         });

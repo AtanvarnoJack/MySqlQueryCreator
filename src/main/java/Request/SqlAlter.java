@@ -8,25 +8,41 @@ import java.util.List;
  * Contain all Alter Request
  */
 public class SqlAlter {
-    private final static String ALTER_TO_INNODB = "AlterToInnoDB";
-    private final static String ALTER_TO_MYISAM = "AlterToMyIsam";
-    private final static String INNODB = "InnoDB";
-    private final static String MYISAM = "MyIsam";
+    private final static String ALTER = "ALTER";
+    private final static String ENGINE = "ENGINE";
+    private final static String INNODB = "INNODB";
+    private final static String MYISAM = "MYISAM";
 
-    public static String getAlterToInnodb() {
-        return ALTER_TO_INNODB;
+    public static String getAlter() {
+        return ALTER;
     }
 
-    public static String getAlterToMyisam() {
-        return ALTER_TO_MYISAM;
+    public static String getEngine() {
+        return ENGINE;
     }
 
+    public static String getInnodb() {
+        return INNODB;
+    }
+
+    public static String getMyisam() {
+        return MYISAM;
+    }
+
+    /**
+     * getAllAlterTableEngine call and concat all request
+     *
+     * @param tableNameList
+     * @param engine
+     * @return
+     */
     public String getAllAlterTableEngine(List<String> tableNameList, String engine){
         String allRequest = "";
         List<String> tableNameListSort = new ArrayList<String>();
 
         for (String tableName : tableNameList) {
-            boolean exist = tryOccurenceExist(tableNameListSort, tableName);
+            Analytics analytics = new Analytics();
+            boolean exist = analytics.tryOccurrenceExist(tableNameListSort, tableName);
             if (!exist){
                 tableNameListSort.add(tableName);
             }
@@ -39,25 +55,19 @@ public class SqlAlter {
         return allRequest;
     }
 
+    /***
+     * getAlterTableEngine return a request for one engine
+     * @param tableName
+     * @param engine
+     * @return
+     */
     public String getAlterTableEngine(String tableName, String engine) {
         String request = "";
-        if (engine.equals(ALTER_TO_INNODB)) {
+        if (engine.equals(INNODB)) {
             request = "ALTER TABLE `" + tableName + "` ENGINE=" + INNODB + ";";
-        } else if (engine.equals(ALTER_TO_MYISAM)) {
+        } else if (engine.equals(MYISAM)) {
             request = "ALTER TABLE `" + tableName + "` ENGINE=" + MYISAM + ";";
         }
         return request;
-    }
-
-    private Boolean tryOccurenceExist(List<String> list, String table) {
-        Boolean bool = false;
-
-        for (String found : list) {
-            if (table.equals(found)) {
-                bool = true;
-            }
-        }
-
-        return bool;
     }
 }
