@@ -28,6 +28,8 @@ public class MainSqlCreator extends Application implements Initializable {
     @FXML
     Label infoOutput;
     @FXML
+    Label appTitle;
+    @FXML
     TextArea textAreaMysqlVersion;
 
     public static void main (String[] args) {
@@ -103,6 +105,7 @@ public class MainSqlCreator extends Application implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        appTitle.setText(mainView.getAppTitle());
         textAreaMysqlVersion.setText("5.6");
         textAreaMysqlVersion.textProperty().addListener(new ChangeListener<String>() {
             @Override

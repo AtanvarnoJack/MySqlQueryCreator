@@ -30,7 +30,7 @@ import java.util.Date;
  */
 public class MainView {
     //App Constant
-    private final static String SQL_CREATOR = "SqlCreator";
+    private final static String APP_TITLE = "MySql Query Creator";
     private final static String ICON_SQL_CREATOR_PATH = "file:img/IconSqlCreator.png";
     private final static String HELP = "Hello!\n" +
             "You need to load a \".xls\" file that contains 4 columns named:\n" +
@@ -59,8 +59,8 @@ public class MainView {
         this.stage = stage;
     }
 
-    public static String getSqlCreator() {
-        return SQL_CREATOR;
+    public static String getAppTitle() {
+        return APP_TITLE;
     }
 
     public static String getHelp() {
@@ -74,7 +74,7 @@ public class MainView {
      * @throws IOException
      */
     public void initStage(Stage stage) throws IOException {
-        stage.setTitle(SQL_CREATOR);
+        stage.setTitle(APP_TITLE);
         stage.setMinHeight(364);
         stage.setMinWidth(450);
         try {
@@ -113,7 +113,7 @@ public class MainView {
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*")
         );
 
-        fileChooser.setTitle(SQL_CREATOR + " : Open the source file");
+        fileChooser.setTitle(APP_TITLE + " : Open the source file");
 
         File defaultDirectory = new File("C:/");
         fileChooser.setInitialDirectory(defaultDirectory);
@@ -154,9 +154,9 @@ public class MainView {
 
             File defaultDirectory = new File("C:/Users/Public/Desktop");
             fileChooser.setInitialDirectory(defaultDirectory);
-            fileChooser.setTitle(SQL_CREATOR + " : Save request");
+            fileChooser.setTitle(APP_TITLE + " : Save request");
             Date date = new Date();
-            fileChooser.setInitialFileName(SQL_CREATOR + "_export_" + date.getDate() + "_" + (date.getMonth() + 1) + "_" + (date.getYear() + 1900) + "_" + date.getHours() + date.getMinutes() + date.getSeconds());
+            fileChooser.setInitialFileName(APP_TITLE + "_export_" + date.getDate() + "_" + (date.getMonth() + 1) + "_" + (date.getYear() + 1900) + "_" + date.getHours() + date.getMinutes() + date.getSeconds());
 
             File fileDirectory = fileChooser.showSaveDialog(stage);
 
@@ -193,7 +193,7 @@ public class MainView {
         java.util.List<String> allRequestList = createAllRequest(typeListSort, typeList, tableList, champsList, conditionList);
         Date date = new Date();
         String allRequest = "/**************************************************\n" +
-                "*  Request created by " + SQL_CREATOR + "!\n" +
+                "*  Request created by " + APP_TITLE + "!\n" +
                 "*  Date: " + date.getDate() + "/" + (date.getMonth() + 1) + "/" + (date.getYear() + 1900) + "\n" +
                 "*  Author: " + System.getProperty("user.name") + "\n" +
                 "**************************************************/";
