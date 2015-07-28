@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by alco on 27/07/2015.
@@ -250,38 +251,13 @@ public class MainView {
      */
     private void detectionType(java.util.List<String> tableListPrepare, java.util.List<String> champsListPrepare, java.util.List<String> conditionListPrepare, java.util.List<String> allRequestList, String type)
             throws IllegalArgumentException {
-        //TODO Refactor Detection Type
         String[] architectureType = type.trim().toUpperCase().split(":");
 
         if (architectureType.length != 0) {
             if (architectureType[0].equals(SqlTrigger.getTrigger())) {
-                SqlTrigger sqlTrigger = new SqlTrigger();
-                allRequestList.add(sqlTrigger.createListSqlDropIfExist(tableListPrepare));
-                allRequestList.add(sqlTrigger.createSqlTriggerList(tableListPrepare, champsListPrepare, conditionListPrepare, mySqlVersion));
+                parseTrigger(tableListPrepare, champsListPrepare, conditionListPrepare, allRequestList);
             } else if (architectureType[0].equals(SqlAlter.getAlter())) {
-                if (architectureType.length >= 2) {
-                    if (architectureType[1].equals(SqlAlter.getEngine())) {
-                        if (architectureType[2].equals(SqlAlter.getInnodb())) {
-                            SqlAlter sqlAlter = new SqlAlter();
-                            allRequestList.add(sqlAlter.getAllAlterTableEngine(tableListPrepare, SqlAlter.getInnodb()));
-                        } else if (architectureType[2].equals(SqlAlter.getMyisam())) {
-                            SqlAlter sqlAlter = new SqlAlter();
-                            allRequestList.add(sqlAlter.getAllAlterTableEngine(tableListPrepare, SqlAlter.getMyisam()));
-                        } else {
-                            throw new IllegalArgumentException("Architecture's type is not correct!\n" +
-                                    " Engine Name:" + architectureType[2] + " for " + Arrays.toString(architectureType));
-                        }
-                    } else if (architectureType[1].equals(SqlAlter.getConstraint())) {
-                        SqlAlter sqlAlter = new SqlAlter();
-                        allRequestList.add(sqlAlter.getAllAlterTableConstraint(tableListPrepare, champsListPrepare, conditionListPrepare));
-                    } else {
-                        throw new IllegalArgumentException("Architecture's type is not correct!\n" +
-                                "Alter Type: " + architectureType[1] + " for " + Arrays.toString(architectureType));
-                    }
-                } else {
-                    throw new IllegalArgumentException("Architecture's type is not correct!\n" +
-                            "Type: " + architectureType[0] + " for " + Arrays.toString(architectureType));
-                }
+                parseAlter(tableListPrepare, champsListPrepare, conditionListPrepare, allRequestList, architectureType);
             } else {
                 throw new IllegalArgumentException("Architecture's type is not correct!\n" +
                         "Rows: " + Arrays.toString(architectureType));
@@ -289,6 +265,78 @@ public class MainView {
         } else {
             throw new IllegalArgumentException("Architecture's type is not correct!\n" +
                     "Type: " + type);
+        }
+    }
+
+    /**
+     * parseTrigger call all method for Trigger Query
+     *
+     * @param tableListPrepare
+     * @param champsListPrepare
+     * @param conditionListPrepare
+     * @param allRequestList
+     */
+    private void parseTrigger(List<String> tableListPrepare, List<String> champsListPrepare, List<String> conditionListPrepare, List<String> allRequestList) {
+        SqlTrigger sqlTrigger = new SqlTrigger();
+        allRequestList.add(sqlTrigger.createListSqlDropIfExist(tableListPrepare));
+        allRequestList.add(sqlTrigger.createSqlTriggerList(tableListPrepare, champsListPrepare, conditionListPrepare, mySqlVersion));
+    }
+
+    /**
+     * parseAlter call all method for Alter query
+     *
+     * @param tableListPrepare
+     * @param champsListPrepare
+     * @param conditionListPrepare
+     * @param allRequestList
+     * @param architectureType
+     */
+    private void parseAlter(java.util.List<String> tableListPrepare, java.util.List<String> champsListPrepare, java.util.List<String> conditionListPrepare, java.util.List<String> allRequestList, String[] architectureType) {
+        if (architectureType.length >= 2) {
+            if (architectureType[1].equals(SqlAlter.getEngine())) {
+                parseEngine(tableListPrepare, allRequestList, architectureType);
+            } else if (architectureType[1].equals(SqlAlter.getConstraint())) {
+                parseConstraint(tableListPrepare, champsListPrepare, conditionListPrepare, allRequestList);
+            } else {
+                throw new IllegalArgumentException("Architecture's type is not correct!\n" +
+                        "Alter Type: " + architectureType[1] + " for " + Arrays.toString(architectureType));
+            }
+        } else {
+            throw new IllegalArgumentException("Architecture's type is not correct!\n" +
+                    "Type: " + architectureType[0] + " for " + Arrays.toString(architectureType));
+        }
+    }
+
+    /**
+     * parseConstraint call all method constraint
+     *
+     * @param tableListPrepare
+     * @param champsListPrepare
+     * @param conditionListPrepare
+     * @param allRequestList
+     */
+    private void parseConstraint(List<String> tableListPrepare, List<String> champsListPrepare, List<String> conditionListPrepare, List<String> allRequestList) {
+        SqlAlter sqlAlter = new SqlAlter();
+        allRequestList.add(sqlAlter.getAllAlterTableConstraint(tableListPrepare, champsListPrepare, conditionListPrepare));
+    }
+
+    /**
+     * parseEngine call all method engine
+     *
+     * @param tableListPrepare
+     * @param allRequestList
+     * @param architectureType
+     */
+    private void parseEngine(List<String> tableListPrepare, List<String> allRequestList, String[] architectureType) {
+        if (architectureType[2].equals(SqlAlter.getInnodb())) {
+            SqlAlter sqlAlter = new SqlAlter();
+            allRequestList.add(sqlAlter.getAllAlterTableEngine(tableListPrepare, SqlAlter.getInnodb()));
+        } else if (architectureType[2].equals(SqlAlter.getMyisam())) {
+            SqlAlter sqlAlter = new SqlAlter();
+            allRequestList.add(sqlAlter.getAllAlterTableEngine(tableListPrepare, SqlAlter.getMyisam()));
+        } else {
+            throw new IllegalArgumentException("Architecture's type is not correct!\n" +
+                    " Engine Name:" + architectureType[2] + " for " + Arrays.toString(architectureType));
         }
     }
 
