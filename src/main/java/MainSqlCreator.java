@@ -17,7 +17,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Created by alco on 06/07/2015.
+ * Created by alco on 06/07/2015.3
+ * View main for view HomePage/fxml
  */
 public class MainSqlCreator extends Application implements Initializable {
     MainView mainView;
