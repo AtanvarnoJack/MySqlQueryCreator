@@ -250,6 +250,7 @@ public class MainView {
      */
     private void detectionType(java.util.List<String> tableListPrepare, java.util.List<String> champsListPrepare, java.util.List<String> conditionListPrepare, java.util.List<String> allRequestList, String type)
             throws IllegalArgumentException {
+        //TODO Refactor Detection Type
         String[] architectureType = type.trim().toUpperCase().split(":");
 
         if (architectureType.length != 0) {
@@ -258,7 +259,7 @@ public class MainView {
                 allRequestList.add(sqlTrigger.createListSqlDropIfExist(tableListPrepare));
                 allRequestList.add(sqlTrigger.createSqlTriggerList(tableListPrepare, champsListPrepare, conditionListPrepare, mySqlVersion));
             } else if (architectureType[0].equals(SqlAlter.getAlter())) {
-                if (architectureType.length == 3) {
+                if (architectureType.length >= 2) {
                     if (architectureType[1].equals(SqlAlter.getEngine())) {
                         if (architectureType[2].equals(SqlAlter.getInnodb())) {
                             SqlAlter sqlAlter = new SqlAlter();
@@ -270,6 +271,9 @@ public class MainView {
                             throw new IllegalArgumentException("Architecture's type is not correct!\n" +
                                     " Engine Name:" + architectureType[2] + " for " + Arrays.toString(architectureType));
                         }
+                    } else if (architectureType[1].equals(SqlAlter.getConstraint())) {
+                        SqlAlter sqlAlter = new SqlAlter();
+                        allRequestList.add(sqlAlter.getAllAlterTableConstraint(tableListPrepare, champsListPrepare, conditionListPrepare));
                     } else {
                         throw new IllegalArgumentException("Architecture's type is not correct!\n" +
                                 "Alter Type: " + architectureType[1] + " for " + Arrays.toString(architectureType));

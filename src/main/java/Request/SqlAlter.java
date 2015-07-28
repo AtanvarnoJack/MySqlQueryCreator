@@ -9,12 +9,17 @@ import java.util.List;
  */
 public class SqlAlter {
     private final static String ALTER = "ALTER";
+    private final static String CONSTRAINT = "CONSTRAINT";
     private final static String ENGINE = "ENGINE";
     private final static String INNODB = "INNODB";
     private final static String MYISAM = "MYISAM";
 
     public static String getAlter() {
         return ALTER;
+    }
+
+    public static String getConstraint() {
+        return CONSTRAINT;
     }
 
     public static String getEngine() {
@@ -27,6 +32,40 @@ public class SqlAlter {
 
     public static String getMyisam() {
         return MYISAM;
+    }
+
+    public String getAllAlterTableConstraint(List<String> tableNameList, List<String> fieldNameList, List<String> keyList) {
+        String allRequest = "";
+
+        List<String> tableNameListSort = new ArrayList<String>();
+        List<String> fieldNameListSort = new ArrayList<String>();
+        List<String> keyNameListSort = new ArrayList<String>();
+
+        for (int i = 0; i < tableNameList.size(); i++) {
+            Analytics analytics = new Analytics();
+            boolean exist = analytics.tryOccurrenceExist(tableNameListSort, tableNameList.get(i)) && analytics.tryOccurrenceExist(fieldNameListSort, fieldNameList.get(i));
+            if (!exist) {
+                tableNameListSort.add(tableNameList.get(i));
+                fieldNameListSort.add(fieldNameList.get(i));
+                keyNameListSort.add(keyList.get(i));
+            }
+        }
+
+        for (int j = 0; j < tableNameListSort.size(); j++) {
+            allRequest = allRequest + "\n" + getAlterTableConstraint(tableNameListSort.get(j), fieldNameListSort.get(j), keyNameListSort.get(j));
+        }
+
+        return allRequest;
+    }
+
+    /**
+     * @param tableName
+     * @param fieldName
+     * @param Key
+     * @return
+     */
+    private String getAlterTableConstraint(String tableName, String fieldName, String Key) {
+        return "ALTER TABLE " + fieldName + " ADD CONSTRAINT " + tableName + " PRIMARY KEY(" + Key + ");";
     }
 
     /**
