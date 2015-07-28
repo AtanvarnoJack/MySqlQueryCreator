@@ -1,5 +1,6 @@
-package ExcelReader;
+package Excel.Reader;
 
+import Excel.ExcelReader;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
@@ -11,7 +12,7 @@ import java.util.List;
 
 /**
  * Created by alco on 06/07/2015.
- * ExcelReader contain method to read the Excel File For SqlCreator App.
+ * Excel contain method to read the Excel File For SqlCreator App.
  */
 public class ExcelReaderImpl implements ExcelReader {
      private Workbook workbook;
@@ -74,7 +75,7 @@ public class ExcelReaderImpl implements ExcelReader {
         int count = -1;
         for (int i = 0; i < allTitle.size(); i++) {
             if (allTitle.get(i).equals(title)){
-                count = i;
+                return i;
             }
         }
         if (count == -1){

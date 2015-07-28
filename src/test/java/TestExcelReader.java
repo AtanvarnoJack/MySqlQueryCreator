@@ -9,7 +9,7 @@ public class TestExcelReader {
     public void shouldGetRateFile(){
         try {
             File file = new File(OCDE_FILE);
-            ExcelReader excelReader = new ExcelReaderImpl(file);
+            Excel excelReader = new ExcelReaderImpl(file);
             Workbook found = excelReader.takeReader(file);
             assertThat(found).isNotNull();
         } catch (IOException e) {
@@ -25,7 +25,7 @@ public class TestExcelReader {
     public void shouldGetASheetByInt(){
         File file = new File(OCDE_FILE);
         try {
-            ExcelReader excelReader = new ExcelReaderImpl(file);
+            Excel excelReader = new ExcelReaderImpl(file);
             Sheet sheet = excelReader.getSheetInt(0);
             assertThat(sheet.getName()).isEqualTo("request");
         } catch (IOException e) {
@@ -39,7 +39,7 @@ public class TestExcelReader {
     public void shouldGetASheetByName(){
         File file = new File(OCDE_FILE);
         try {
-            ExcelReader excelReader = new ExcelReaderImpl(file);
+            Excel excelReader = new ExcelReaderImpl(file);
             Sheet sheet = excelReader.getSheetName("request");
             assertThat(sheet.getName()).isEqualTo("request");
         } catch (IOException e) {
@@ -53,7 +53,7 @@ public class TestExcelReader {
     public void shouldGetAllSheetName(){
         File file = new File(OCDE_FILE);
         try {
-            ExcelReader excelReader = new ExcelReaderImpl(file);
+            Excel excelReader = new ExcelReaderImpl(file);
             List<String> sheetList = excelReader.getAllSheetName();
             assertThat(sheetList).containsOnly("request","Feuil2","Feuil3");
         } catch (IOException e) {
@@ -67,7 +67,7 @@ public class TestExcelReader {
     public void shouldGetAllTitleForASheet(){
         File file = new File(OCDE_FILE);
         try {
-            ExcelReader excelReader = new ExcelReaderImpl(file);
+            Excel excelReader = new ExcelReaderImpl(file);
             List<String> titleList = excelReader.getAllTitle("request");
             assertThat(titleList).containsOnly("TYPE","TABLE","CHAMPS","CONDITION");
         } catch (IOException e) {
@@ -81,7 +81,7 @@ public class TestExcelReader {
     public void shouldGetColumnOfATitle(){
         File file = new File(OCDE_FILE);
         try {
-            ExcelReader excelReader = new ExcelReaderImpl(file);
+            Excel excelReader = new ExcelReaderImpl(file);
             int column = excelReader.getTitlePos("request","CHAMPS");
             assertThat(column).isEqualTo(2);
 
@@ -98,7 +98,7 @@ public class TestExcelReader {
         final String sheetName = "request";
         final String titleName = "CHAMPS";
         try {
-            ExcelReader excelReader = new ExcelReaderImpl(file);
+            Excel excelReader = new ExcelReaderImpl(file);
             List<String> valueList = excelReader.getColumn(sheetName,excelReader.getTitlePos(sheetName,titleName));
             assertThat(valueList).contains("RED_CONTRACT_TYPE","INCIDENT_EMAIL2","ESCALADE_EMAIL2");
             assertThat(valueList).doesNotContain("",titleName);
@@ -116,7 +116,7 @@ public class TestExcelReader {
 /*
     @Test
     public void shouldLoadAllData(){
-        LoaderExcel loader = new LoaderExcel();
+        LoaderKeywords loader = new LoaderKeywords();
         loader.loadList();
 
         List<String> tableListFound = loader.getTableList();
