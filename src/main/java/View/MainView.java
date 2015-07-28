@@ -1,6 +1,6 @@
 package View;
 
-import ExcelReader.LoaderExcel;
+import Excel.Loader.LoaderKeywords;
 import FileOut.FileSql;
 import Request.MainRequest;
 import Request.MySQL.MySqlRequest;
@@ -179,16 +179,16 @@ public class MainView {
      * @throws IllegalArgumentException
      */
     public String procedureCreateRequest(File file) throws IOException, BiffException, IllegalArgumentException {
-        LoaderExcel loaderExcel = new LoaderExcel();
+        LoaderKeywords loaderKeywords = new LoaderKeywords();
         MainRequest mainRequest = new MySqlRequest(mySqlVersion);
-        loaderExcel.loadList(file);
+        loaderKeywords.loadList(file);
 
-        java.util.List<String> typeListSort = sortByType(loaderExcel.getTypeList());
+        java.util.List<String> typeListSort = sortByType(loaderKeywords.getTypeList());
 
-        java.util.List<String> typeList = loaderExcel.getTypeList();
-        java.util.List<String> tableList = loaderExcel.getTableList();
-        java.util.List<String> champsList = loaderExcel.getChampsList();
-        java.util.List<String> conditionList = loaderExcel.getConditionList();
+        java.util.List<String> typeList = loaderKeywords.getTypeList();
+        java.util.List<String> tableList = loaderKeywords.getTableList();
+        java.util.List<String> champsList = loaderKeywords.getChampsList();
+        java.util.List<String> conditionList = loaderKeywords.getConditionList();
 
         java.util.List<String> allRequestList = mainRequest.createAllRequest(typeListSort, typeList, tableList, champsList, conditionList);
         Date date = new Date();

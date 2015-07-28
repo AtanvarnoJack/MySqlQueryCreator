@@ -2,7 +2,7 @@
  * Created by alco on 03/07/2015.
  */
 
-import ExcelReader.LoaderExcel;
+import Excel.Loader.LoaderKeywords;
 import Reference.Const;
 import Request.MySQL.Query.SqlTrigger;
 import org.testng.annotations.Test;
@@ -20,11 +20,11 @@ public class TestSqlTriggerCreate {
 
     @Test
     public void canFindArgsOnExcel() {
-        LoaderExcel loaderExcel = new LoaderExcel();
-        loaderExcel.loadList();
+        LoaderKeywords loaderKeywords = new LoaderKeywords();
+        loaderKeywords.loadList();
         SqlTrigger sqlTrigger = new SqlTrigger();
 
-        String chaine = sqlTrigger.toStringGetAll(loaderExcel.getTableList(), loaderExcel.getChampsList(), loaderExcel.getConditionList(), 5.6);
+        String chaine = sqlTrigger.toStringGetAll(loaderKeywords.getTableList(), loaderKeywords.getChampsList(), loaderKeywords.getConditionList(), 5.6);
         System.out.println("chaine = " + chaine);
     }
 }

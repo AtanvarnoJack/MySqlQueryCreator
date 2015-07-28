@@ -1,5 +1,7 @@
-package ExcelReader;
+package Excel.Loader;
 
+import Excel.ExcelReader;
+import Excel.Reader.ExcelReaderImpl;
 import jxl.read.biff.BiffException;
 
 import java.io.File;
@@ -9,9 +11,9 @@ import java.util.List;
 
 /**
  * Created by alco on 06/07/2015.
- * LoaderExcel load Excel in List.
+ * LoaderKeywords load Excel in List.
  */
-public class LoaderExcel {
+public class LoaderKeywords {
     private static final String SHEET_NAME = "request";
     private static final String TITLE_NAME_TABLE = "TABLE";
     private static final String TITLE_NAME_CHAMPS = "FIELD";
@@ -22,9 +24,10 @@ public class LoaderExcel {
     private List<String> conditionList = new ArrayList<String>();
     private List<String> typeList = new ArrayList<String>();
 
-    public LoaderExcel() {}
+    public LoaderKeywords() {
+    }
 
-    public LoaderExcel(List<String> tableList, List<String> champsList, List<String> conditionList) {
+    public LoaderKeywords(List<String> tableList, List<String> champsList, List<String> conditionList) {
         this.tableList = tableList;
         this.champsList = champsList;
         this.conditionList = conditionList;
@@ -106,7 +109,7 @@ public class LoaderExcel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        LoaderExcel that = (LoaderExcel) o;
+        LoaderKeywords that = (LoaderKeywords) o;
 
         if (champsList != null ? !champsList.equals(that.champsList) : that.champsList != null) return false;
         if (conditionList != null ? !conditionList.equals(that.conditionList) : that.conditionList != null)
