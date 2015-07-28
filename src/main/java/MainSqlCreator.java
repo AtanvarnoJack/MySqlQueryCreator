@@ -8,7 +8,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-
 import javafx.stage.Stage;
 import jxl.read.biff.BiffException;
 
@@ -49,7 +48,7 @@ public class MainSqlCreator extends Application implements Initializable {
         File file = mainView.getExcelFile(stage);
         if (file != null) {
             try {
-                String allRequest = mainView.procedure(file);
+                String allRequest = mainView.procedureCreateRequest(file);
                 labelOutput.setText(allRequest);
                 infoOutput.setText("End! File Request.sql created on desktop!");
 
@@ -57,7 +56,7 @@ public class MainSqlCreator extends Application implements Initializable {
             }catch (IllegalArgumentException IAE){
                 infoOutput.setText("Request aborded!");
                 mainView.getDialogs().dialogBadFileFormat();
-                labelOutput.setText("Please select a file with a type format for SqlCreator! \nSee Help! (Button '?')");
+                labelOutput.setText("Please select a file with a type format for SqlCreator! \n\n" + IAE + "\n\nSee Help! (Button '?')");
             }catch (BiffException e) {
                 infoOutput.setText("Request abord!");
                 mainView.getDialogs().dialogBadFileFormat();
@@ -101,6 +100,7 @@ public class MainSqlCreator extends Application implements Initializable {
                     mainView.setMySqlVersion(parseDouble);
                 } catch (NumberFormatException NFE) {
                     mainView.getDialogs().dialogBadNumber();
+                    labelOutput.setText("Please choise a valid mysql version number! \n\n" + NFE + "\n\nSee Help! (Button '?')");
                 }
             }
         });
