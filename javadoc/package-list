@@ -3,4 +3,7 @@ ExcelReader
 FileOut
 Reference
 Request
+Request.Analytics
+Request.MySQL
+Request.MySQL.Query
 View
