@@ -7,6 +7,7 @@ import java.io.IOException;
 
 /**
  * Created by alco on 06/07/2015.
+ * Just create a file
  */
 public class FileSql {
     private static File urlFile;
