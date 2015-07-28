@@ -76,15 +76,25 @@ public class MainSqlCreator extends Application implements Initializable {
     }
 
     @FXML
-    private void handleButtonActionHelp(ActionEvent event) throws IOException {
+    private void handleButtonActionHelp(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        mainView = new MainView(stage);
         infoOutput.setText("Help:");
         labelOutput.setText(mainView.getHelp());
     }
 
     @FXML
-    private void handleButtonCopy(ActionEvent event) throws IOException {
-        infoOutput.setText("Text has been saved in clipboard!");
-        mainView.copyToClipboard(labelOutput.getText());
+    private void handleButtonCopy(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        mainView = new MainView(stage);
+        try {
+            mainView.copyToClipboard(labelOutput.getText());
+            infoOutput.setText("Text has been saved in clipboard!");
+        } catch (IllegalArgumentException IAE) {
+            mainView.getDialogs().dialogNoData();
+            infoOutput.setText("Can't copy a null text!");
+        }
+
     }
 
     @Override

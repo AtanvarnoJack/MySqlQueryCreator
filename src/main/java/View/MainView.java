@@ -125,11 +125,16 @@ public class MainView {
      * copyToClipboard copy data in params to clipboard windows path
      * @param text
      */
-    public void copyToClipboard(String text) {
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Clipboard clipboard = toolkit.getSystemClipboard();
-        StringSelection strSel = new StringSelection(text);
-        clipboard.setContents(strSel, null);
+    public void copyToClipboard(String text) throws IllegalArgumentException {
+        if (!text.equals("")) {
+            Toolkit toolkit = Toolkit.getDefaultToolkit();
+            Clipboard clipboard = toolkit.getSystemClipboard();
+            StringSelection strSel = new StringSelection(text);
+            clipboard.setContents(strSel, null);
+        } else {
+            throw new IllegalArgumentException("Can't copy a null text!");
+        }
+
     }
 
     /**
