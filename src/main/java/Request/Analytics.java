@@ -19,15 +19,7 @@ public class Analytics {
      * @return
      */
     public Boolean tryOccurrenceExist(List<String> list, String table) {
-        Boolean bool = false;
-
-        for (String found : list) {
-            if (table.equals(found)) {
-                bool = true;
-            }
-        }
-
-        return bool;
+        return list.contains(table);
     }
 
     /**
@@ -38,14 +30,6 @@ public class Analytics {
      * @return
      */
     public Boolean tryOccurrenceNotExist(List<String> list, String table) {
-        Boolean bool = true;
-
-        for (String found : list) {
-            if (table.equals(found)) {
-                bool = false;
-            }
-        }
-
-        return bool;
+        return !list.contains(table);
     }
 }

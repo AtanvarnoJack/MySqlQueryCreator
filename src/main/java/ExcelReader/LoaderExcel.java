@@ -68,7 +68,7 @@ public class LoaderExcel {
             }else if (title.equals(TITLE_TYPE)){
                 this.typeList.addAll(excelReader.getColumnUpper(SHEET_NAME, excelReader.getTitlePos(SHEET_NAME, TITLE_TYPE)));
             }else{
-                throw new IllegalArgumentException("champs hors configuration!");
+                throw new IllegalArgumentException("Invalid field '" + title + "'");
             }
         }
     }

@@ -74,7 +74,7 @@ public class ExcelReaderImpl implements ExcelReader {
         int count = -1;
         for (int i = 0; i < allTitle.size(); i++) {
             if (allTitle.get(i).equals(title)){
-                count = i;
+                return i;
             }
         }
         if (count == -1){
