@@ -2,8 +2,8 @@ package View;
 
 import ExcelReader.LoaderExcel;
 import FileOut.FileSql;
-import Request.SqlAlter;
-import Request.SqlTrigger;
+import Request.MainRequest;
+import Request.MySQL.MySqlRequest;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -21,7 +21,6 @@ import java.awt.datatransfer.StringSelection;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -181,6 +180,7 @@ public class MainView {
      */
     public String procedureCreateRequest(File file) throws IOException, BiffException, IllegalArgumentException {
         LoaderExcel loaderExcel = new LoaderExcel();
+        MainRequest mainRequest = new MySqlRequest(mySqlVersion);
         loaderExcel.loadList(file);
 
         java.util.List<String> typeListSort = sortByType(loaderExcel.getTypeList());
@@ -190,7 +190,7 @@ public class MainView {
         java.util.List<String> champsList = loaderExcel.getChampsList();
         java.util.List<String> conditionList = loaderExcel.getConditionList();
 
-        java.util.List<String> allRequestList = createAllRequest(typeListSort, typeList, tableList, champsList, conditionList);
+        java.util.List<String> allRequestList = mainRequest.createAllRequest(typeListSort, typeList, tableList, champsList, conditionList);
         Date date = new Date();
         String allRequest = "/**************************************************\n" +
                 "*  Request created by " + APP_TITLE + "!\n" +
@@ -206,87 +206,6 @@ public class MainView {
         return allRequest;
     }
 
-    /***
-     * createAllRequest sort all list an generate all request in a List<String>.
-     * @param typeListSort
-     * @param typeList
-     * @param tableList
-     * @param champsList
-     * @param conditionList
-     * @return
-     */
-    private java.util.List<String> createAllRequest(java.util.List<String> typeListSort, java.util.List<String> typeList, java.util.List<String> tableList, java.util.List<String> champsList, java.util.List<String> conditionList)
-            throws IllegalArgumentException {
-        java.util.List<String> tableListPrepare = new ArrayList<String>();
-        java.util.List<String> champsListPrepare = new ArrayList<String>();
-        java.util.List<String> conditionListPrepare = new ArrayList<String>();
-
-        java.util.List<String> allRequestList = new ArrayList<String>();
-
-        for(String type : typeListSort){
-            tableListPrepare.clear();
-            champsListPrepare.clear();
-            conditionListPrepare.clear();
-            for (int i = 0; i < typeList.size(); i++) {
-                if (type.equals(typeList.get(i))) {
-                    tableListPrepare.add(tableList.get(i));
-                    champsListPrepare.add(champsList.get(i));
-                    conditionListPrepare.add(conditionList.get(i));
-                }
-            }
-            detectionType(tableListPrepare, champsListPrepare, conditionListPrepare, allRequestList, type);
-        }
-        return allRequestList;
-    }
-
-    /**
-     * detectionType cast all type in different name and calling associated Request Creator
-     *
-     * @param tableListPrepare
-     * @param champsListPrepare
-     * @param conditionListPrepare
-     * @param allRequestList
-     * @param type
-     */
-    private void detectionType(java.util.List<String> tableListPrepare, java.util.List<String> champsListPrepare, java.util.List<String> conditionListPrepare, java.util.List<String> allRequestList, String type)
-            throws IllegalArgumentException {
-        String[] architectureType = type.trim().toUpperCase().split(":");
-
-        if (architectureType.length != 0) {
-            if (architectureType[0].equals(SqlTrigger.getTrigger())) {
-                SqlTrigger sqlTrigger = new SqlTrigger();
-                allRequestList.add(sqlTrigger.createListSqlDropIfExist(tableListPrepare));
-                allRequestList.add(sqlTrigger.createSqlTriggerList(tableListPrepare, champsListPrepare, conditionListPrepare, mySqlVersion));
-            } else if (architectureType[0].equals(SqlAlter.getAlter())) {
-                if (architectureType.length == 3) {
-                    if (architectureType[1].equals(SqlAlter.getEngine())) {
-                        if (architectureType[2].equals(SqlAlter.getInnodb())) {
-                            SqlAlter sqlAlter = new SqlAlter();
-                            allRequestList.add(sqlAlter.getAllAlterTableEngine(tableListPrepare, SqlAlter.getInnodb()));
-                        } else if (architectureType[2].equals(SqlAlter.getMyisam())) {
-                            SqlAlter sqlAlter = new SqlAlter();
-                            allRequestList.add(sqlAlter.getAllAlterTableEngine(tableListPrepare, SqlAlter.getMyisam()));
-                        } else {
-                            throw new IllegalArgumentException("Architecture's type is not correct!\n" +
-                                    " Engine Name:" + architectureType[2] + " for " + Arrays.toString(architectureType));
-                        }
-                    } else {
-                        throw new IllegalArgumentException("Architecture's type is not correct!\n" +
-                                "Alter Type: " + architectureType[1] + " for " + Arrays.toString(architectureType));
-                    }
-                } else {
-                    throw new IllegalArgumentException("Architecture's type is not correct!\n" +
-                            "Type: " + architectureType[0] + " for " + Arrays.toString(architectureType));
-                }
-            } else {
-                throw new IllegalArgumentException("Architecture's type is not correct!\n" +
-                        "Rows: " + Arrays.toString(architectureType));
-            }
-        } else {
-            throw new IllegalArgumentException("Architecture's type is not correct!\n" +
-                    "Type: " + type);
-        }
-    }
 
     /**
      * sortByType return a "distinct" of params list.
