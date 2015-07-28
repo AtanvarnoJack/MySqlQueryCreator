@@ -33,11 +33,11 @@ public class MainView {
     private final static String SQL_CREATOR = "SqlCreator";
     private final static String ICON_SQL_CREATOR_PATH = "file:img/IconSqlCreator.png";
     private final static String HELP = "Hello!\n" +
-            "You need to load a \".xls\" file who contain 4 column named:\n" +
-            "\"type\": Contains value \"Trigger\". Other in development.\n" +
-            "\"table\": Contain the name of yours Table in Base.\n" +
-            "\"champs\":Contain the name of the rows in your table base.\n" +
-            "\"condition\": Contain the condition for the trigger.\n" +
+            "You need to load a \".xls\" file that contains 4 columns named:\n" +
+            "\"type\": Must contain \"Trigger\". Other types in development.\n" +
+            "\"table\": Contains the name of your table in database.\n" +
+            "\"champs\": Contains the name of the rows in your table.\n" +
+            "\"condition\": Contains the condition for the trigger.\n" +
             "\n" +
             "Example:\n" +
             "type\t\ttable\t\t\tchamps\t\t\t\t\tcondition\n" +
@@ -45,10 +45,10 @@ public class MainView {
             "Trigger\t\tPERSON\t\ttata \t\t'V1' or 'V2' or 'V3'\n" +
             "Trigger\t\tPERSON\t\ttiti \t\t'Low' or 'Medium' or 'High'\n" +
             "\n" +
-            "The output are create in a SQL file named \"TriggerBase.sql\" on the Desktop!\n" +
+            // "The output are create in a SQL file named \"TriggerBase.sql\" on the Desktop!\n" +
             "\n" +
-            "For an Excel file example see \"ExempleFile.xls\" in application repository.\n" +
-            "For an Empty file see\"EmptyFile.xls\" in application repository.";
+            "See the example \"ExempleFile.xls\" in application repository.\n" +
+            "Use the template \"EmptyFile.xls\"  in application repository to create your own request.";
     //Variables:
     private static double mySqlVersion = 5.6;
     private Stage stage;
@@ -75,8 +75,8 @@ public class MainView {
      */
     public void initStage(Stage stage) throws IOException {
         stage.setTitle(SQL_CREATOR);
-        stage.setMinHeight(260);
-        stage.setMinWidth(400);
+        stage.setMinHeight(364);
+        stage.setMinWidth(450);
         try {
             stage.getIcons().add(new Image(ICON_SQL_CREATOR_PATH));
         }catch (Exception e){}
@@ -113,7 +113,7 @@ public class MainView {
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*")
         );
 
-        fileChooser.setTitle(SQL_CREATOR + " : Ouvrir le fichier source");
+        fileChooser.setTitle(SQL_CREATOR + " : Open the source file");
 
         File defaultDirectory = new File("C:/");
         fileChooser.setInitialDirectory(defaultDirectory);
@@ -125,11 +125,16 @@ public class MainView {
      * copyToClipboard copy data in params to clipboard windows path
      * @param text
      */
-    public void copyToClipboard(String text) {
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Clipboard clipboard = toolkit.getSystemClipboard();
-        StringSelection strSel = new StringSelection(text);
-        clipboard.setContents(strSel, null);
+    public void copyToClipboard(String text) throws IllegalArgumentException {
+        if (!text.equals("")) {
+            Toolkit toolkit = Toolkit.getDefaultToolkit();
+            Clipboard clipboard = toolkit.getSystemClipboard();
+            StringSelection strSel = new StringSelection(text);
+            clipboard.setContents(strSel, null);
+        } else {
+            throw new IllegalArgumentException("Can't copy a null text!");
+        }
+
     }
 
     /**
@@ -149,7 +154,7 @@ public class MainView {
 
             File defaultDirectory = new File("C:/Users/Public/Desktop");
             fileChooser.setInitialDirectory(defaultDirectory);
-            fileChooser.setTitle(SQL_CREATOR + " : Save export");
+            fileChooser.setTitle(SQL_CREATOR + " : Save request");
             Date date = new Date();
             fileChooser.setInitialFileName(SQL_CREATOR + "_export_" + date.getDate() + "_" + (date.getMonth() + 1) + "_" + (date.getYear() + 1900) + "_" + date.getHours() + date.getMinutes() + date.getSeconds());
 
@@ -160,7 +165,8 @@ public class MainView {
                 fileSql.writeStringInSqlFile(allRequest);
             }
         }else {
-            dialogs.dialogNoText();
+            throw new IllegalArgumentException("Can't copy a null text!");
+            //dialogs.dialogNoText();
         }
     }
 
@@ -261,23 +267,23 @@ public class MainView {
                             SqlAlter sqlAlter = new SqlAlter();
                             allRequestList.add(sqlAlter.getAllAlterTableEngine(tableListPrepare, SqlAlter.getMyisam()));
                         } else {
-                            throw new IllegalArgumentException("Architecture Type is not correct!\n" +
+                            throw new IllegalArgumentException("Architecture's type is not correct!\n" +
                                     " Engine Name:" + architectureType[2] + " for " + Arrays.toString(architectureType));
                         }
                     } else {
-                        throw new IllegalArgumentException("Architecture Type is not correct!\n" +
+                        throw new IllegalArgumentException("Architecture's type is not correct!\n" +
                                 "Alter Type: " + architectureType[1] + " for " + Arrays.toString(architectureType));
                     }
                 } else {
-                    throw new IllegalArgumentException("Architecture Type is not correct!\n" +
+                    throw new IllegalArgumentException("Architecture's type is not correct!\n" +
                             "Type: " + architectureType[0] + " for " + Arrays.toString(architectureType));
                 }
             } else {
-                throw new IllegalArgumentException("Architecture Type is not correct!\n" +
+                throw new IllegalArgumentException("Architecture's type is not correct!\n" +
                         "Rows: " + Arrays.toString(architectureType));
             }
         } else {
-            throw new IllegalArgumentException("Type is not correct!\n" +
+            throw new IllegalArgumentException("Architecture's type is not correct!\n" +
                     "Type: " + type);
         }
     }

@@ -17,7 +17,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Created by alco on 06/07/2015.
+ * Created by alco on 06/07/2015.3
+ * View main for view HomePage/fxml
  */
 public class MainSqlCreator extends Application implements Initializable {
     MainView mainView;
@@ -43,22 +44,22 @@ public class MainSqlCreator extends Application implements Initializable {
     private void handleButtonActionOpenFile(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         mainView = new MainView(stage);
-        infoOutput.setText("Request!");
+        // infoOutput.setText("Request!");
 
         File file = mainView.getExcelFile(stage);
         if (file != null) {
             try {
                 String allRequest = mainView.procedureCreateRequest(file);
                 labelOutput.setText(allRequest);
-                infoOutput.setText("End! File Request.sql created on desktop!");
+                infoOutput.setText("End! Find your request below!");
 
-                System.out.println("Request = " + allRequest);
+                // System.out.println("Request = " + allRequest);
             }catch (IllegalArgumentException IAE){
-                infoOutput.setText("Request aborded!");
+                infoOutput.setText("Request aborted!");
                 mainView.getDialogs().dialogBadFileFormat();
                 labelOutput.setText("Please select a file with a type format for SqlCreator! \n\n" + IAE + "\n\nSee Help! (Button '?')");
             }catch (BiffException e) {
-                infoOutput.setText("Request abord!");
+                infoOutput.setText("Request aborted!");
                 mainView.getDialogs().dialogBadFileFormat();
                 labelOutput.setText("Please select a file with a type format for SqlCreator! \nSee Help! (Button '?')");
             }
@@ -69,21 +70,35 @@ public class MainSqlCreator extends Application implements Initializable {
     public void handleButtonActionExport(ActionEvent actionEvent) {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         mainView = new MainView(stage);
-        mainView.export(labelOutput.getText());
-        infoOutput.setText("File Exported!");
-
+        try {
+            mainView.export(labelOutput.getText());
+            infoOutput.setText("Text has been exported in the file you specified!");
+        } catch (IllegalArgumentException IAE) {
+            mainView.getDialogs().dialogNoData();
+            infoOutput.setText("There is nothing to export...");
+        }
     }
 
     @FXML
-    private void handleButtonActionHelp(ActionEvent event) throws IOException {
+    private void handleButtonActionHelp(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        mainView = new MainView(stage);
         infoOutput.setText("Help:");
         labelOutput.setText(mainView.getHelp());
     }
 
     @FXML
-    private void handleButtonCopy(ActionEvent event) throws IOException {
-        infoOutput.setText("Text has been saved in clipboard!");
-        mainView.copyToClipboard(labelOutput.getText());
+    private void handleButtonCopy(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        mainView = new MainView(stage);
+        try {
+            mainView.copyToClipboard(labelOutput.getText());
+            infoOutput.setText("Text has been saved in clipboard!");
+        } catch (IllegalArgumentException IAE) {
+            mainView.getDialogs().dialogNoData();
+            infoOutput.setText("There is nothing to copy...");
+        }
+
     }
 
     @Override
@@ -100,7 +115,7 @@ public class MainSqlCreator extends Application implements Initializable {
                     mainView.setMySqlVersion(parseDouble);
                 } catch (NumberFormatException NFE) {
                     mainView.getDialogs().dialogBadNumber();
-                    labelOutput.setText("Please choise a valid mysql version number! \n\n" + NFE + "\n\nSee Help! (Button '?')");
+                    labelOutput.setText("Please choose a valid mysql version number! \n\n" + NFE + "\n\nSee Help! (Button '?')");
                 }
             }
         });

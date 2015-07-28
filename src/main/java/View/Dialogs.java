@@ -16,8 +16,17 @@ public class Dialogs {
         org.controlsfx.dialog.Dialogs.create()
                 .owner(stage)
                 .title("Bad File")
-                .masthead("Bad Format File!")
+                .masthead("Bad format file!")
                 .message("Please select a file with a type format for SqlCreator!")
+                .showError();
+    }
+
+    public void dialogNoData() {
+        org.controlsfx.dialog.Dialogs.create()
+                .owner(stage)
+                .title("No Data")
+                .masthead("No text to copy!")
+                .message("There is nothing to copy!\n Please execute the program before!")
                 .showError();
     }
 
@@ -25,8 +34,8 @@ public class Dialogs {
         org.controlsfx.dialog.Dialogs.create()
                 .owner(stage)
                 .title("Bad Number")
-                .masthead("Enter a Version Number!")
-                .message("Please enter a Version Number! \n Before 6.0 and after 0!")
+                .masthead("Enter a valid version number!")
+                .message("Please enter a version number! \n Between 6.0 and 0!")
                 .showError();
     }
 
