@@ -54,11 +54,9 @@ public class PopupBaseView extends Application implements Initializable {
         connection = popupBase.btnTestConnection(textFieldURL.getText(), textFieldUser.getText(), textFieldPassword.getText());
         if (connection) {
             labelStateConnect.setText("Connected");
-            circleStateConnection.setRadius(8);
             circleStateConnection.setFill(Color.GREEN);
         } else {
             labelStateConnect.setText("Not Connected");
-            circleStateConnection.setRadius(8);
             circleStateConnection.setFill(Color.RED);
         }
     }
@@ -70,14 +68,12 @@ public class PopupBaseView extends Application implements Initializable {
         try {
             popupBase.btnSaveConnection(textFieldURL.getText(), textFieldUser.getText(), textFieldPassword.getText());
             labelStateConnect.setText("Connected");
-            circleStateConnection.setRadius(8);
             circleStateConnection.setFill(Color.GREEN);
             stage.close();
         } catch (SQLException SqlE) {
             Dialogs dialogs = new Dialogs(stage);
             dialogs.dialogBadConnectionSql(SqlE);
             labelStateConnect.setText("Not Connected");
-            circleStateConnection.setRadius(8);
             circleStateConnection.setFill(Color.RED);
         }
     }
