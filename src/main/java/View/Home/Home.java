@@ -1,9 +1,10 @@
-package View;
+package View.Home;
 
 import Excel.Loader.LoaderKeywords;
 import FileOut.FileSql;
 import Request.MainRequest;
 import Request.MySQL.MySqlRequest;
+import View.Popup.PopupBaseView;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -27,7 +28,7 @@ import java.util.Date;
  * Created by alco on 27/07/2015.
  * MainView is a class who contain all background method of the view.
  */
-public class MainView {
+public class Home {
     //App Constant
     private final static String APP_TITLE = "MySql Query Creator";
     private final static String ICON_SQL_CREATOR_PATH = "file:img/IconSqlCreator.png";
@@ -51,10 +52,9 @@ public class MainView {
     //Variables:
     private static double mySqlVersion = 5.6;
     private Stage stage;
-    private Dialogs dialogs;
 
-    public MainView(Stage stage) {
-        dialogs = new Dialogs(stage);
+
+    public Home(Stage stage) {
         this.stage = stage;
     }
 
@@ -64,6 +64,10 @@ public class MainView {
 
     public static String getHelp() {
         return HELP;
+    }
+
+    public static String getIconSqlCreatorPath() {
+        return ICON_SQL_CREATOR_PATH;
     }
 
     /**
@@ -78,7 +82,8 @@ public class MainView {
         stage.setMinWidth(450);
         try {
             stage.getIcons().add(new Image(ICON_SQL_CREATOR_PATH));
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         this.stage = stage;
         Parent root = FXMLLoader.load(getClass().getResource("/HomePage.fxml"));
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -97,8 +102,9 @@ public class MainView {
         stage.show();
     }
 
-    /***
+    /**
      * getExcelFile display a windows FileChooser for select a Excel File
+     *
      * @param stage
      * @return
      */
@@ -120,8 +126,9 @@ public class MainView {
         return fileChooser.showOpenDialog(stage);
     }
 
-    /***
+    /**
      * copyToClipboard copy data in params to clipboard windows path
+     *
      * @param text
      */
     public void copyToClipboard(String text) throws IllegalArgumentException {
@@ -142,7 +149,7 @@ public class MainView {
      * @param allRequest
      */
     public void export(String allRequest) {
-        if (!allRequest.equals("")){
+        if (!allRequest.equals("")) {
 
             FileChooser fileChooser = new FileChooser();
 
@@ -159,11 +166,11 @@ public class MainView {
 
             File fileDirectory = fileChooser.showSaveDialog(stage);
 
-            if (fileDirectory != null){
+            if (fileDirectory != null) {
                 FileSql fileSql = new FileSql(fileDirectory);
                 fileSql.writeStringInSqlFile(allRequest);
             }
-        }else {
+        } else {
             throw new IllegalArgumentException("Can't copy a null text!");
             //dialogs.dialogNoText();
         }
@@ -206,7 +213,6 @@ public class MainView {
         return allRequest;
     }
 
-
     /**
      * sortByType return a "distinct" of params list.
      *
@@ -234,6 +240,11 @@ public class MainView {
         return allTypeInFile;
     }
 
+    public void showPopupBaseConnection() throws IOException {
+        PopupBaseView popupBaseView = new PopupBaseView();
+        popupBaseView.start(stage);
+    }
+
     public double getMySqlVersion() {
         return mySqlVersion;
     }
@@ -248,13 +259,5 @@ public class MainView {
 
     public void setStage(Stage stage) {
         this.stage = stage;
-    }
-
-    public Dialogs getDialogs() {
-        return dialogs;
-    }
-
-    public void setDialogs(Dialogs dialogs) {
-        this.dialogs = dialogs;
     }
 }
