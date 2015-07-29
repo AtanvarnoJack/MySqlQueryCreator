@@ -1,6 +1,6 @@
 package View.Popup;
 
-import BDD.Base;
+import BDD.BaseConnect;
 import BDD.IdConnection;
 import View.Dialogs.Dialogs;
 import javafx.application.Application;
@@ -52,8 +52,8 @@ public class PopupBaseView extends Application implements Initializable {
 
     @FXML
     private void handleButtonTest(ActionEvent event) {
-        Base baseConnection = new Base();
-        boolean connection = baseConnection.tryConnection(textFieldURL.getText(), textFieldUser.getText(), textFieldPassword.getText());
+        BaseConnect baseConnectConnection = new BaseConnect();
+        boolean connection = baseConnectConnection.tryConnection(textFieldURL.getText(), textFieldUser.getText(), textFieldPassword.getText());
         if (connection) {
             labelStateConnect.setText("Connected");
             circleStateConnection.setRadius(8);
@@ -69,7 +69,7 @@ public class PopupBaseView extends Application implements Initializable {
     private void handleButtonSave(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         try {
-            Base baseConnection = new Base(textFieldURL.getText(), textFieldUser.getText(), textFieldPassword.getText());
+            BaseConnect baseConnectConnection = new BaseConnect(textFieldURL.getText(), textFieldUser.getText(), textFieldPassword.getText());
             labelStateConnect.setText("Connected");
             circleStateConnection.setRadius(8);
             circleStateConnection.setFill(Color.GREEN);

@@ -7,14 +7,14 @@ import java.sql.SQLException;
 /**
  * Created by alco on 29/07/2015.
  */
-public class Base {
+public class BaseConnect {
 
     private static Connection conn = null;
 
-    public Base() {
+    public BaseConnect() {
     }
 
-    public Base(String url, String user, String password) throws SQLException {
+    public BaseConnect(String url, String user, String password) throws SQLException {
         try {
             conn = DriverManager.getConnection(url, user, password);
             IdConnection.setURL(url);
@@ -49,7 +49,7 @@ public class Base {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Base that = (Base) o;
+        BaseConnect that = (BaseConnect) o;
 
         if (conn != null ? !conn.equals(that.conn) : that.conn != null) return false;
 
