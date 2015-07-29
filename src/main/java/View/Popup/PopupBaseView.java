@@ -49,6 +49,7 @@ public class PopupBaseView extends Application implements Initializable {
 
     @FXML
     private void handleButtonTest(ActionEvent event) {
+        popupBase = new PopupBase();
         boolean connection;
         connection = popupBase.btnTestConnection(textFieldURL.getText(), textFieldUser.getText(), textFieldPassword.getText());
         if (connection) {
@@ -65,6 +66,7 @@ public class PopupBaseView extends Application implements Initializable {
     @FXML
     private void handleButtonSave(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        popupBase = new PopupBase();
         try {
             popupBase.btnSaveConnection(textFieldURL.getText(), textFieldUser.getText(), textFieldPassword.getText());
             labelStateConnect.setText("Connected");
@@ -82,6 +84,7 @@ public class PopupBaseView extends Application implements Initializable {
 
     @Override
     public void start(final Stage primaryStage) throws IOException {
+        popupBase = new PopupBase();
         popupBase.initPopup();
     }
 
