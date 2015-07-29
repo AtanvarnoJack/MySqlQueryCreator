@@ -10,7 +10,6 @@ import static org.fest.assertions.api.Assertions.assertThat;
  * Created by alco on 29/07/2015.
  */
 public class TestBaseConnection {
-
     @Test
     public void ConnectionBase() {
         Connection conn = null;

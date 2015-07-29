@@ -1,16 +1,12 @@
 package View.Popup;
 
-import BDD.BaseConnect;
 import BDD.IdConnection;
 import View.Dialogs.Dialogs;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -27,6 +23,7 @@ import java.util.ResourceBundle;
  * Created by alco on 29/07/2015.
  */
 public class PopupBaseView extends Application implements Initializable {
+    PopupBase popupBase;
 
     @FXML
     Label labelStateConnect;
@@ -52,8 +49,8 @@ public class PopupBaseView extends Application implements Initializable {
 
     @FXML
     private void handleButtonTest(ActionEvent event) {
-        BaseConnect baseConnectConnection = new BaseConnect();
-        boolean connection = baseConnectConnection.tryConnection(textFieldURL.getText(), textFieldUser.getText(), textFieldPassword.getText());
+        boolean connection;
+        connection = popupBase.btnTestConnection(textFieldURL.getText(), textFieldUser.getText(), textFieldPassword.getText());
         if (connection) {
             labelStateConnect.setText("Connected");
             circleStateConnection.setRadius(8);
@@ -69,7 +66,7 @@ public class PopupBaseView extends Application implements Initializable {
     private void handleButtonSave(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         try {
-            BaseConnect baseConnectConnection = new BaseConnect(textFieldURL.getText(), textFieldUser.getText(), textFieldPassword.getText());
+            popupBase.btnSaveConnection(textFieldURL.getText(), textFieldUser.getText(), textFieldPassword.getText());
             labelStateConnect.setText("Connected");
             circleStateConnection.setRadius(8);
             circleStateConnection.setFill(Color.GREEN);
@@ -85,19 +82,7 @@ public class PopupBaseView extends Application implements Initializable {
 
     @Override
     public void start(final Stage primaryStage) throws IOException {
-        Parent parent = FXMLLoader.load(getClass().getResource("/PopupBaseConnection.fxml"));
-        Scene scene = new Scene(parent);
-
-        String css = "/texture.css";
-        scene.getStylesheets().add(css);
-
-        Stage stage = new Stage();
-        stage.setMinWidth(300);
-        stage.setMinHeight(250);
-        stage.setMaxWidth(300);
-        stage.setMaxHeight(250);
-        stage.setScene(scene);
-        stage.showAndWait();
+        popupBase.initPopup();
     }
 
     @Override
