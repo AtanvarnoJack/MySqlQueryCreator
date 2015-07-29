@@ -11,5 +11,8 @@ public interface ExcelReader {
     int getTitlePos(String sheetName, String title);
     List<String> getColumn(String sheetName, int column);
 
+    List<String> getRow(String sheetName, int row);
+
+    String getColumnType(String sheetName, int column);
     List<String> getColumnUpper(String sheetName, int column);
 }
