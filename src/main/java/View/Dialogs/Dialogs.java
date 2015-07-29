@@ -7,6 +7,7 @@ import java.sql.SQLException;
 /**
  * Created by alco on 27/07/2015.
  */
+@SuppressWarnings("deprecation")
 public class Dialogs {
     private Stage stage;
 

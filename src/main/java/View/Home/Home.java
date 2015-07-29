@@ -53,20 +53,19 @@ public class Home {
     private static double mySqlVersion = 5.6;
     private Stage stage;
 
-
-    public Home(Stage stage) {
+    protected Home(Stage stage) {
         this.stage = stage;
     }
 
-    public static String getAppTitle() {
+    protected static String getAppTitle() {
         return APP_TITLE;
     }
 
-    public static String getHelp() {
+    protected static String getHelp() {
         return HELP;
     }
 
-    public static String getIconSqlCreatorPath() {
+    protected static String getIconSqlCreatorPath() {
         return ICON_SQL_CREATOR_PATH;
     }
 
@@ -76,7 +75,7 @@ public class Home {
      * @param stage
      * @throws IOException
      */
-    public void initStage(Stage stage) throws IOException {
+    protected void initStage(Stage stage) throws IOException {
         stage.setTitle(APP_TITLE);
         stage.setMinHeight(364);
         stage.setMinWidth(450);
@@ -108,7 +107,7 @@ public class Home {
      * @param stage
      * @return
      */
-    public File getExcelFile(Stage stage) {
+    protected File getExcelFile(Stage stage) {
 
         FileChooser fileChooser = new FileChooser();
 
@@ -131,7 +130,7 @@ public class Home {
      *
      * @param text
      */
-    public void copyToClipboard(String text) throws IllegalArgumentException {
+    protected void copyToClipboard(String text) throws IllegalArgumentException {
         if (!text.equals("")) {
             Toolkit toolkit = Toolkit.getDefaultToolkit();
             Clipboard clipboard = toolkit.getSystemClipboard();
@@ -148,7 +147,8 @@ public class Home {
      *
      * @param allRequest
      */
-    public void export(String allRequest) {
+    @SuppressWarnings("deprecation")
+    protected void export(String allRequest) {
         if (!allRequest.equals("")) {
 
             FileChooser fileChooser = new FileChooser();
@@ -185,7 +185,8 @@ public class Home {
      * @throws BiffException
      * @throws IllegalArgumentException
      */
-    public String procedureCreateRequest(File file) throws IOException, BiffException, IllegalArgumentException {
+    @SuppressWarnings("deprecation")
+    protected String procedureCreateRequest(File file) throws IOException, BiffException, IllegalArgumentException {
         LoaderKeywords loaderKeywords = new LoaderKeywords();
         MainRequest mainRequest = new MySqlRequest(mySqlVersion);
         loaderKeywords.loadList(file);
@@ -240,24 +241,24 @@ public class Home {
         return allTypeInFile;
     }
 
-    public void showPopupBaseConnection() throws IOException {
+    protected void showPopupBaseConnection() throws IOException {
         PopupBaseView popupBaseView = new PopupBaseView();
         popupBaseView.start(stage);
     }
 
-    public double getMySqlVersion() {
+    protected double getMySqlVersion() {
         return mySqlVersion;
     }
 
-    public void setMySqlVersion(double mySqlVersion) {
+    protected void setMySqlVersion(double mySqlVersion) {
         this.mySqlVersion = mySqlVersion;
     }
 
-    public Stage getStage() {
+    protected Stage getStage() {
         return stage;
     }
 
-    public void setStage(Stage stage) {
+    protected void setStage(Stage stage) {
         this.stage = stage;
     }
 }
