@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="AnchorPane" prefHeight="600.0" prefWidth="600.0"
-            xmlns="http://javafx.com/javafx/8" fx:controller="MainSqlCreator">
+            xmlns="http://javafx.com/javafx/8" fx:controller="View.Home.HomeView">
     <children >
         <HBox alignment="CENTER" AnchorPane.topAnchor="14" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
             <Label fx:id="appTitle" AnchorPane.topAnchor="14">
@@ -13,6 +13,10 @@
                 </font>
             </Label>
         </HBox>
+        <Button AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" mnemonicParsing="false"
+                onAction="#handleButtonBaseConnection"
+                text="Base Connection">
+        </Button>
         <HBox alignment="CENTER" AnchorPane.topAnchor="80" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
             <Button mnemonicParsing="false" onAction="#handleButtonActionOpenFile"
                     prefHeight="25.0" prefWidth="226.0" text="Open a File">

@@ -1,6 +1,8 @@
-package View;
+package View.Dialogs;
 
 import javafx.stage.Stage;
+
+import java.sql.SQLException;
 
 /**
  * Created by alco on 27/07/2015.
@@ -47,6 +49,16 @@ public class Dialogs {
                 .message("There is nothing to export!")
                 .showWarning();
     }
+
+    public void dialogBadConnectionSql(SQLException sqlE) {
+        org.controlsfx.dialog.Dialogs.create()
+                .owner(stage)
+                .title("Bad Connection")
+                .masthead("Can not connect to Base!")
+                .message("Please verify your url, User or password.\n" + sqlE)
+                .showError();
+    }
+
     public Stage getStage() {
         return stage;
     }
