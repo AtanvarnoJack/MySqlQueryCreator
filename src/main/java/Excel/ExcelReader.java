@@ -13,6 +13,14 @@ public interface ExcelReader {
 
     List<String> getRow(String sheetName, int row);
 
-    String getColumnType(String sheetName, int column);
+    String getColumnType(String sheetName, int column, int row);
     List<String> getColumnUpper(String sheetName, int column);
+
+    int getMaxSizeColumn(String sheetname, int column);
+
+    int getTotalSizeColumn(String tablename, int columnPos);
+
+    long getMinValueColumn(String tablename, int columnPos);
+
+    long getMaxValueColumn(String tablename, int columnPos);
 }

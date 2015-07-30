@@ -8,13 +8,13 @@ public class TestLoaderData {
 
     @Test
     public void testCreateTable() {
-        LoaderData loaderData = new LoaderData("File/Classeur1.xls");
+        LoaderData loaderData = new LoaderData("File/ClasseurTest.xls");
         System.out.println(loaderData.createTable("Feuil1"));
     }
 
     @Test
     public void testInsertIntoTable() {
-        LoaderData loaderData = new LoaderData("File/Classeur1.xls");
+        LoaderData loaderData = new LoaderData("File/ClasseurTest.xls");
         System.out.println(loaderData.insertIntoTable("Feuil1"));
     }
 }
