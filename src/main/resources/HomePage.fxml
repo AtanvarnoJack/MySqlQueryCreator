@@ -4,19 +4,37 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="AnchorPane" prefHeight="600.0" prefWidth="600.0"
-            xmlns="http://javafx.com/javafx/8" fx:controller="View.Home.HomeView">
+            xmlns="http://javafx.com/javafx/8" fx:controller="View.Home.HomeView" styleClass="background">
     <children >
-        <HBox alignment="CENTER" AnchorPane.topAnchor="14" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-            <Label fx:id="appTitle" AnchorPane.topAnchor="14">
+        <MenuBar fx:id="menuBarView" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.leftAnchor="0">
+            <Menu text="File">
+                <MenuItem text="Save"></MenuItem>
+                <MenuItem text="Export"></MenuItem>
+                <MenuItem text="Exit"></MenuItem>
+            </Menu>
+            <Menu text="Edit">
+                <MenuItem text="Cut"></MenuItem>
+                <MenuItem text="Copy"></MenuItem>
+                <MenuItem text="Past"></MenuItem>
+            </Menu>
+            <Menu text="Help">
+                <MenuItem text="Version"></MenuItem>
+                <MenuItem text="?"></MenuItem>
+            </Menu>
+            <Menu text="base">
+                <MenuItem text="Connection" onAction="#handleButtonBaseConnectionMenu"/>
+                <MenuItem text="?"></MenuItem>
+            </Menu>
+        </MenuBar>
+
+        <HBox alignment="CENTER" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+            <Label fx:id="appTitle">
                 <font>
                     <Font name="Arial Black" size="36.0"/>
                 </font>
             </Label>
         </HBox>
-        <Button AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" mnemonicParsing="false"
-                onAction="#handleButtonBaseConnection"
-                text="Base Connection">
-        </Button>
+
         <HBox alignment="CENTER" AnchorPane.topAnchor="80" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
             <Button mnemonicParsing="false" onAction="#handleButtonActionOpenFile"
                     prefHeight="25.0" prefWidth="226.0" text="Open a File">
@@ -55,7 +73,6 @@
                 <Font name="Arial Black" size="12.0"/>
             </font>
         </Label>
-
         <TextArea fx:id="textAreaMysqlVersion" prefHeight="10.0" prefWidth="10.0" AnchorPane.leftAnchor="160" AnchorPane.bottomAnchor="0"></TextArea>
     </children>
 </AnchorPane>

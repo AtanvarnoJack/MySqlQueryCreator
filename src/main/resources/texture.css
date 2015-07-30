@@ -4,9 +4,11 @@
 */
 
 .root {
-    -fx-spacing: 10;
-    -fx-background-color: linear-gradient(lightsteelblue, darkcyan);
     -fx-padding: 5;
+}
+
+.background{
+    -fx-background-color: linear-gradient(lightsteelblue, darkcyan);
 }
 
 .button {

@@ -7,8 +7,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import jxl.read.biff.BiffException;
@@ -23,9 +23,6 @@ import java.util.ResourceBundle;
  * View main for view HomePage/fxml
  */
 public class HomeView extends Application implements Initializable {
-    Dialogs dialogs;
-    Home home;
-
     @FXML
     Label labelOutput;
     @FXML
@@ -34,6 +31,11 @@ public class HomeView extends Application implements Initializable {
     Label appTitle;
     @FXML
     TextArea textAreaMysqlVersion;
+    @FXML
+    MenuBar menuBarView;
+    private Dialogs dialogs;
+    private Home home;
+    private Stage mainStage;
 
     public static void main(String[] args) {
         launch(args);
@@ -44,23 +46,16 @@ public class HomeView extends Application implements Initializable {
         home = new Home(stage);
         dialogs = new Dialogs(stage);
         home.initStage(stage);
+        mainStage = stage;
     }
-
-    @FXML
-    private void handleButtonBaseConnection(ActionEvent event) throws IOException {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        home = new Home(stage);
-        home.showPopupBaseConnection();
-    }
-
 
     @FXML
     private void handleButtonActionOpenFile(ActionEvent event) throws IOException {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        home = new Home(stage);
+        dialogs = new Dialogs(mainStage);
+        home = new Home(mainStage);
         // infoOutput.setText("Request!");
 
-        File file = home.getExcelFile(stage);
+        File file = home.getExcelFile(mainStage);
         if (file != null) {
             try {
                 String allRequest = home.procedureCreateRequest(file);
@@ -82,8 +77,8 @@ public class HomeView extends Application implements Initializable {
 
     @FXML
     public void handleButtonActionExport(ActionEvent actionEvent) {
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        home = new Home(stage);
+        dialogs = new Dialogs(mainStage);
+        home = new Home(mainStage);
         try {
             home.export(labelOutput.getText());
             infoOutput.setText("Text has been exported in the file you specified!");
@@ -95,16 +90,15 @@ public class HomeView extends Application implements Initializable {
 
     @FXML
     private void handleButtonActionHelp(ActionEvent actionEvent) throws IOException {
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        home = new Home(stage);
+        home = new Home(mainStage);
         infoOutput.setText("Help:");
         labelOutput.setText(home.getHelp());
     }
 
     @FXML
     private void handleButtonCopy(ActionEvent actionEvent) throws IOException {
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        home = new Home(stage);
+        dialogs = new Dialogs(mainStage);
+        home = new Home(mainStage);
         try {
             home.copyToClipboard(labelOutput.getText());
             infoOutput.setText("Text has been saved in clipboard!");
@@ -135,4 +129,11 @@ public class HomeView extends Application implements Initializable {
             }
         });
     }
+
+    @FXML
+    private void handleButtonBaseConnectionMenu(ActionEvent event) throws IOException {
+        home = new Home(mainStage);
+        home.showPopupBaseConnection();
+    }
+
 }
