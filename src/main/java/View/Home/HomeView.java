@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import jxl.read.biff.BiffException;
@@ -28,11 +29,13 @@ public class HomeView extends Application implements Initializable {
     @FXML
     Label infoOutput;
     @FXML
-    Label appTitle;
-    @FXML
     TextArea textAreaMysqlVersion;
     @FXML
     MenuBar menuBarView;
+
+    @FXML
+    MenuItem exitButton;
+
     private Dialogs dialogs;
     private Home home;
     private Stage mainStage;
@@ -47,6 +50,26 @@ public class HomeView extends Application implements Initializable {
         dialogs = new Dialogs(stage);
         home.initStage(stage);
         mainStage = stage;
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        textAreaMysqlVersion.setText("5.6");
+        textAreaMysqlVersion.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(final ObservableValue<? extends String> observable, final String oldValue, final String newValue) {
+                try {
+                    double parseDouble = Double.parseDouble(newValue);
+                    if (parseDouble > 6.0 || parseDouble <= 0) {
+                        dialogs.dialogBadNumber();
+                    }
+                    home.setMySqlVersion(parseDouble);
+                } catch (NumberFormatException NFE) {
+                    dialogs.dialogBadNumber();
+                    labelOutput.setText("Please choose a valid mysql version number! \n\n" + NFE + "\n\nSee Help! (Button '?')");
+                }
+            }
+        });
     }
 
     @FXML
@@ -109,25 +132,14 @@ public class HomeView extends Application implements Initializable {
 
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        appTitle.setText(home.getAppTitle());
-        textAreaMysqlVersion.setText("5.6");
-        textAreaMysqlVersion.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(final ObservableValue<? extends String> observable, final String oldValue, final String newValue) {
-                try {
-                    double parseDouble = Double.parseDouble(newValue);
-                    if (parseDouble > 6.0 || parseDouble <= 0) {
-                        dialogs.dialogBadNumber();
-                    }
-                    home.setMySqlVersion(parseDouble);
-                } catch (NumberFormatException NFE) {
-                    dialogs.dialogBadNumber();
-                    labelOutput.setText("Please choose a valid mysql version number! \n\n" + NFE + "\n\nSee Help! (Button '?')");
-                }
-            }
-        });
+    @FXML
+    public void handleButtonCut(ActionEvent actionEvent) {
+        //TODO cut action
+    }
+
+    @FXML
+    public void handleButtonPast(ActionEvent actionEvent) {
+        //TODO Past action
     }
 
     @FXML
@@ -136,4 +148,8 @@ public class HomeView extends Application implements Initializable {
         home.showPopupBaseConnection();
     }
 
+    @FXML
+    public void handleButtonVersion(ActionEvent actionEvent) {
+        //TODO display version
+    }
 }

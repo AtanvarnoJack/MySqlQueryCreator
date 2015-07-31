@@ -5,58 +5,55 @@
 <?import javafx.scene.text.Font?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="AnchorPane" prefHeight="600.0" prefWidth="600.0"
             xmlns="http://javafx.com/javafx/8" fx:controller="View.Home.HomeView" styleClass="background">
-    <children >
-        <MenuBar fx:id="menuBarView" AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.leftAnchor="0">
-            <Menu text="File">
-                <MenuItem text="Save"></MenuItem>
-                <MenuItem text="Export"></MenuItem>
-                <MenuItem text="Exit"></MenuItem>
-            </Menu>
-            <Menu text="Edit">
-                <MenuItem text="Cut"></MenuItem>
-                <MenuItem text="Copy"></MenuItem>
-                <MenuItem text="Past"></MenuItem>
-            </Menu>
-            <Menu text="Help">
-                <MenuItem text="Version"></MenuItem>
-                <MenuItem text="?"></MenuItem>
-            </Menu>
-            <Menu text="base">
-                <MenuItem text="Connection" onAction="#handleButtonBaseConnectionMenu"/>
-                <MenuItem text="?"></MenuItem>
-            </Menu>
-        </MenuBar>
+    <children>
+        <VBox AnchorPane.topAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.leftAnchor="0">
+            <MenuBar fx:id="menuBarView">
+                <Menu text="File">
+                    <MenuItem text="Import" onAction="#handleButtonActionOpenFile"></MenuItem>
+                    <MenuItem text="Export" onAction="#handleButtonActionExport"></MenuItem>
+                </Menu>
+                <Menu text="Edit">
+                    <MenuItem text="Cut" onAction="#handleButtonCut"></MenuItem>
+                    <MenuItem text="Copy" onAction="#handleButtonCopy"></MenuItem>
+                    <MenuItem text="Past" onAction="#handleButtonPast"></MenuItem>
+                </Menu>
+                <Menu text="base">
+                    <MenuItem text="Connection" onAction="#handleButtonBaseConnectionMenu"/>
+                    <MenuItem text="?"></MenuItem>
+                </Menu>
+                <Menu text="Help">
+                    <MenuItem text="Version" onAction="#handleButtonVersion"></MenuItem>
+                    <MenuItem text="?" onAction="#handleButtonActionHelp"></MenuItem>
+                </Menu>
+            </MenuBar>
+            <ToolBar>
+                <HBox alignment="CENTER_LEFT">
+                    <Button mnemonicParsing="false" onAction="#handleButtonActionOpenFile"
+                            text="Open a File">
+                    </Button>
+                </HBox>
+                <Pane HBox.hgrow="ALWAYS"/>
+                <HBox alignment="CENTER_RIGHT">
+                    <Button mnemonicParsing="false" onAction="#handleButtonCopy"
+                            text="Copy">
+                    </Button>
+                    <Pane prefWidth="5.0">
+                    </Pane>
+                    <Button mnemonicParsing="false" onAction="#handleButtonActionExport"
+                            prefHeight="25.0" text="Export">
+                    </Button>
+                </HBox>
+            </ToolBar>
+        </VBox>
 
-        <HBox alignment="CENTER" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-            <Label fx:id="appTitle">
-                <font>
-                    <Font name="Arial Black" size="36.0"/>
-                </font>
-            </Label>
-        </HBox>
-
-        <HBox alignment="CENTER" AnchorPane.topAnchor="80" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-            <Button mnemonicParsing="false" onAction="#handleButtonActionOpenFile"
-                    prefHeight="25.0" prefWidth="226.0" text="Open a File">
-            </Button>
-        </HBox>
-        <Label fx:id="infoOutput" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="145" text="Choose a file please!">
+        <Label fx:id="infoOutput" AnchorPane.leftAnchor="20" AnchorPane.topAnchor="70" text="Choose a file please!">
             <font>
                 <Font name="Arial Black" size="14.0"/>
             </font>
         </Label>
 
-        <HBox alignment="CENTER" AnchorPane.rightAnchor="0" layoutY="148">
-            <Button mnemonicParsing="false" onAction="#handleButtonCopy"
-                    text="Copy">
-            </Button>
-            <Label prefWidth="5.0" text=" ">
-            </Label>
-            <Button mnemonicParsing="false" onAction="#handleButtonActionExport"
-                    prefHeight="25.0" text="Export">
-            </Button>
-        </HBox>
-        <ScrollPane layoutY="150" AnchorPane.bottomAnchor="50" AnchorPane.topAnchor="200" AnchorPane.rightAnchor="0" AnchorPane.leftAnchor="0">
+        <ScrollPane layoutY="150" AnchorPane.bottomAnchor="50" AnchorPane.topAnchor="110" AnchorPane.rightAnchor="0"
+                    AnchorPane.leftAnchor="0">
             <Label fx:id="labelOutput" >
                 <font>
                     <Font name="Arial Black" size="12.0"/>

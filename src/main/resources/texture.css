@@ -8,37 +8,42 @@
 }
 
 .background{
-    -fx-background-color: linear-gradient(lightsteelblue, darkcyan);
+    -fx-background-color: linear-gradient(#AACCEE, #6699BB);
 }
 
 .button {
-/ / -fx-font-family : "Arial";
+/ / -fx-font-family : "Arial ";
     -fx-font-size: 15px;
-    -fx-background-color: linear-gradient(#3333ff, #339BFF);
-    -fx-text-fill: #ffffff;
+    -fx-background-color: linear-gradient(#ddeeff, #aabbcc);
+    -fx-text-fill: #000000;
 }
-
 .button:hover {
-    -fx-background-color: linear-gradient(#2A5058, #61a2b1);
-    -fx-text-fill: #ffffff;
+    -fx-background-color: linear-gradient(#ddeeff, #99CCFF);
+    -fx-text-fill: #000000;
 }
 
-#label {
-    -fx-font-color: #ffffff;
-    -fx-font-size: 20px;
-    -fx-font-weight: bold;
+.menu-bar { /* The menu bar itself */
+}
+.menu-bar:focused {
+    -fx-background-color: linear-gradient(#ddeeff, #99CCFF);
+}
+.menu-bar:showing { /* The menu bar itself */
+    -fx-background-color: linear-gradient(#ddeeff, #99CCFF);
 }
 
-#comboBoxSelectYear {
-    -fx-font-size: 15px;
-    -fx-background-color: linear-gradient(#3333ff, #339BFF);
-    -fx-text-fill: #ffffff;
-
+.menu:focused {
+    -fx-background-color: linear-gradient(#ddeeff, #99CCFF);
+}
+.menu:showing { /* The menu bar itself */
+    -fx-background-color: linear-gradient(#ddeeff, #99CCFF);
+}
+.menu .label {
+    -fx-text-fill: #000000;
 }
 
-#comboBoxRateGroup {
-    -fx-font-size: 15px;
-    -fx-background-color: linear-gradient(#3333ff, #339BFF);
-    -fx-text-fill: #ffffff;
-
+.menu-item:focused {
+    -fx-background-color: linear-gradient(#ddeeff, #99CCFF);
+}
+.menu-item:showing{
+    -fx-background-color: linear-gradient(#ddeeff, #99CCFF);
 }
