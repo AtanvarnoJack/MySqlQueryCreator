@@ -33,10 +33,6 @@ public class LoaderData {
         return excelReader.getAllTitle(sheetname);
     }
 
-    public List<String> getColumnData(String sheetname, int colIndex) {
-        return excelReader.getColumn(sheetname, colIndex);
-    }
-
     public String createTable(String tablename) {
         if (!getTablesName().contains(tablename))
             throw new IllegalArgumentException("Table " + tablename + " does not exist!");
@@ -60,6 +56,7 @@ public class LoaderData {
         List<String> columnsList = getColumnsName(tablename);
         int valid = 0;
         for (String col : columnsList) {
+            if (col.isEmpty()) return -1;
             if (columnsList.indexOf(col) == columnsList.lastIndexOf(col)) valid++;
             else return -1;
         }
@@ -69,12 +66,12 @@ public class LoaderData {
     public String guessType(String tablename, String columnName) {
         int columnPos = excelReader.getTitlePos(tablename, columnName);
         String columnType = excelReader.getColumnType(tablename, columnPos, 1);
+        // TODO : Traiter le format des dates
+        if (columnType == "Date") throw new UnsupportedOperationException("Date type is not implemented yet.");
         return getAccurateColumnType(tablename, columnPos, columnType);
     }
 
     private String getAccurateColumnType(String tablename, int columnPos, String columnType) {
-        //return columnType;
-        /**/
         switch (columnType) {
             case "Label":
                 int maxSize = excelReader.getMaxSizeColumn(tablename, columnPos);
@@ -105,10 +102,8 @@ public class LoaderData {
                 return "DATETIME";
         }
         return "TEXT";
-        /**/
     }
 
-    // TODO : INSERT INTO TABLE
     public String insertIntoTable(String tablename) {
         String request = "INSERT INTO TABLE `" + tablename + "` VALUES\n";
         for (int i = 1; i < excelReader.getColumn(tablename, 1).size(); i++) {

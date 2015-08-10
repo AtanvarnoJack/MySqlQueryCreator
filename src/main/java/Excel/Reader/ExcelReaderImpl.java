@@ -202,5 +202,4 @@ public class ExcelReaderImpl implements ExcelReader {
         return workbook != null ? workbook.hashCode() : 0;
     }
 
-    public enum ExcelColumnType {Number, Date, Label}
 }
