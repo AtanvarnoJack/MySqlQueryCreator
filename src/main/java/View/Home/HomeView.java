@@ -14,6 +14,7 @@ import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import jxl.read.biff.BiffException;
 
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -129,17 +130,36 @@ public class HomeView extends Application implements Initializable {
             dialogs.dialogNoData();
             infoOutput.setText("There is nothing to copy...");
         }
-
     }
 
     @FXML
     public void handleButtonCut(ActionEvent actionEvent) {
-        //TODO cut action
+        dialogs = new Dialogs(mainStage);
+        home = new Home(mainStage);
+        try {
+            home.copyToClipboard(labelOutput.getText());
+            labelOutput.setText("");
+            infoOutput.setText("Text has been saved in clipboard!");
+        } catch (IllegalArgumentException IAE) {
+            dialogs.dialogNoData();
+            infoOutput.setText("There is nothing to copy...");
+        }
     }
 
     @FXML
     public void handleButtonPast(ActionEvent actionEvent) {
-        //TODO Past action
+        home = new Home(mainStage);
+        try {
+            labelOutput.setText(home.pastToClipboard());
+            infoOutput.setText("Text has been Past!");
+        } catch (UnsupportedFlavorException e) {
+            dialogs.dialogBadFileFormat();
+            infoOutput.setText("There is nothing to Past...");
+        } catch (IOException e) {
+            dialogs.dialogNoData();
+            infoOutput.setText("There is nothing to Past...");
+        }
+
     }
 
     @FXML
