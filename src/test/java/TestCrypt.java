@@ -11,16 +11,6 @@ import static org.fest.assertions.Assertions.assertThat;
  */
 public class TestCrypt {
 
-    public static boolean testPassword(String clearTextTestPassword,
-                                       String encodedActualPassword)
-            throws NoSuchAlgorithmException {
-        Crypt crypt = new CryptMD5();
-        String encodedTestPassword = crypt.getEncodedPassword(
-                clearTextTestPassword);
-
-        return (encodedTestPassword.equals(encodedActualPassword));
-    }
-
     @Test
     public void testCrypt() {
         Crypt crypt = new CryptMD5();
@@ -28,7 +18,7 @@ public class TestCrypt {
         System.out.println(crypt.getEncodedPassword("mot de passe"));
         try {
 
-            boolean found = testPassword("mot de passe", "729f2d8b3d3d9bc07ba349faab7fdf44");
+            boolean found = crypt.testPassword("mot de passe", "729f2d8b3d3d9bc07ba349faab7fdf44");
             assertThat(found).isTrue();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
