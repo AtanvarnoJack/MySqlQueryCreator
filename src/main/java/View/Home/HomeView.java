@@ -143,9 +143,13 @@ public class HomeView extends Application implements Initializable {
     }
 
     @FXML
-    private void handleButtonBaseConnectionMenu(ActionEvent event) throws IOException {
+    private void handleButtonBaseConnectionMenu(ActionEvent event) {
         home = new Home(mainStage);
-        home.showPopupBaseConnection();
+        try {
+            home.showPopupBaseConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

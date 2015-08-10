@@ -1,9 +1,14 @@
 
+BDD
 Excel
+Excel.Loader
+Excel.Reader
 FileOut
 Reference
 Request
 Request.Analytics
 Request.MySQL
 Request.MySQL.Query
-View
+View.Dialogs
+View.Home
+View.Popup
