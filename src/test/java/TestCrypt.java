@@ -1,10 +1,10 @@
 import Base.Cryptage.Crypt;
-import Base.Cryptage.Md5.CryptMd5;
+import Base.Cryptage.CryptMD5.CryptMD5;
 import org.testng.annotations.Test;
 
 import java.security.NoSuchAlgorithmException;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.fest.assertions.Assertions.assertThat;
 
 /**
  * Created by alco on 10/08/2015.
@@ -14,7 +14,7 @@ public class TestCrypt {
     public static boolean testPassword(String clearTextTestPassword,
                                        String encodedActualPassword)
             throws NoSuchAlgorithmException {
-        Crypt crypt = new CryptMd5();
+        Crypt crypt = new CryptMD5();
         String encodedTestPassword = crypt.getEncodedPassword(
                 clearTextTestPassword);
 
@@ -23,7 +23,7 @@ public class TestCrypt {
 
     @Test
     public void testCrypt() {
-        Crypt crypt = new CryptMd5();
+        Crypt crypt = new CryptMD5();
 
         System.out.println(crypt.getEncodedPassword("mot de passe"));
         try {
