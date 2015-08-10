@@ -5,7 +5,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="AnchorPane" prefHeight="250.0" prefWidth="300.0"
-            xmlns="http://javafx.com/javafx/8" fx:controller="View.Popup.PopupBaseView">
+            xmlns="http://javafx.com/javafx/8" fx:controller="View.Popup.PopupBaseView" styleClass="background">
     <children>
         <HBox alignment="CENTER" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
             <Label fx:id="labelStateConnect" AnchorPane.topAnchor="14" text="Connection:">

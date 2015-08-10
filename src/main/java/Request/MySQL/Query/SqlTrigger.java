@@ -192,7 +192,7 @@ public class SqlTrigger {
     private String getConditionTriggerString(List<String> champNameList, List<String> conditionList, int pos) {
         String ifRequete = "\t\tif  new." + champNameList.get(pos).trim() + "<> " + conditionList.get(pos).trim() + " then\n" +
                 "\t\tSIGNAL SQLSTATE '45000'\n" +
-                "\t\tSET MESSAGE_TEXT = 'Cannot add or update row: " + champNameList.get(pos).trim() + " for condition: " + conditionList.get(pos).trim() + "';\n" +
+                "\t\tSET MESSAGE_TEXT = 'Cannot add or update row: " + champNameList.get(pos).trim() + "';\n" +
                 "        end if;";
         return ifRequete;
     }

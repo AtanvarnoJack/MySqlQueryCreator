@@ -88,7 +88,9 @@ public class PopupBaseView extends Application implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         if (IdConnection.getURL() == null) {
             textFieldURL.setText("jdbc:mysql://hostname:port/basename");
+            circleStateConnection.setFill(Color.ORANGE);
         } else {
+            circleStateConnection.setFill(Color.GREEN);
             textFieldURL.setText(IdConnection.getURL());
             textFieldUser.setText(IdConnection.getUser());
             textFieldPassword.setText(IdConnection.getPassword());
