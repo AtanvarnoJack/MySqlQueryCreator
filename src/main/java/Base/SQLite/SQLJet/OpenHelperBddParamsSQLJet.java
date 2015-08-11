@@ -15,7 +15,7 @@ import java.util.List;
  * Created by alco on 10/08/2015.
  */
 public class OpenHelperBddParamsSQLJet {
-    private final static String DB_REPOSITORIES = "Settings/";
+    private final static String DB_REPOSITORIES = "settings/";
     private final static String DB_NAME = "ParamsBaseConnection";
 
     private final static String TABLE_PARAMS = "Params";
@@ -24,8 +24,6 @@ public class OpenHelperBddParamsSQLJet {
     private static final String TABLE_ROW_PASSWORD = "Password";
     private final static String INDEX_Params = "Index_Params";
 
-    private static File dbFile;
-
     /**
      * getSqlJetDb
      *
@@ -33,7 +31,7 @@ public class OpenHelperBddParamsSQLJet {
      * @throws org.tmatesoft.sqljet.core.SqlJetException
      */
     public static SqlJetDb getSqlJetDb() throws SqlJetException {
-        dbFile = new File(DB_REPOSITORIES + DB_NAME);
+        File dbFile = new File(DB_REPOSITORIES + DB_NAME);
         SqlJetDb db = SqlJetDb.open(dbFile, true);
         return db;
     }
@@ -68,7 +66,7 @@ public class OpenHelperBddParamsSQLJet {
      * @throws SqlJetException
      */
     protected void createNewBase() throws SqlJetException {
-        dbFile = new File(DB_REPOSITORIES + DB_NAME);
+        File dbFile = new File(DB_REPOSITORIES + DB_NAME);
         dbFile.delete();
 
         SqlJetDb db = SqlJetDb.open(dbFile, true);
