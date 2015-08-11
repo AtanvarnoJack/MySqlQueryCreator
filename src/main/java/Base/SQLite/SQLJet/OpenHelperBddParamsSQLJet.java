@@ -13,6 +13,7 @@ import java.util.List;
 
 /**
  * Created by alco on 10/08/2015.
+ * OpenHelperBddParamsSQLJet class contains all SQLJet method for base Params
  */
 public class OpenHelperBddParamsSQLJet {
     private final static String DB_REPOSITORIES = "settings/";
