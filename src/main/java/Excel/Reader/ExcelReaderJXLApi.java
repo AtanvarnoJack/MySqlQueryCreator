@@ -14,13 +14,14 @@ import java.util.List;
  * Created by alco on 06/07/2015.
  * Excel contain method to read the Excel File For SqlCreator App.
  */
-public class ExcelReaderImpl implements ExcelReader {
+public class ExcelReaderJXLApi implements ExcelReader {
      private Workbook workbook;
 
-    public ExcelReaderImpl(String path) throws IOException, BiffException {
+    public ExcelReaderJXLApi(String path) throws IOException, BiffException {
         this.workbook = takeReader(path);
     }
-    public ExcelReaderImpl(File file) throws IOException, BiffException {
+
+    public ExcelReaderJXLApi(File file) throws IOException, BiffException {
         this.workbook = takeReader(file);
     }
 
@@ -118,7 +119,7 @@ public class ExcelReaderImpl implements ExcelReader {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ExcelReaderImpl that = (ExcelReaderImpl) o;
+        ExcelReaderJXLApi that = (ExcelReaderJXLApi) o;
 
         if (workbook != null ? !workbook.equals(that.workbook) : that.workbook != null) return false;
 

@@ -1,7 +1,7 @@
 package Excel.Loader;
 
 import Excel.ExcelReader;
-import Excel.Reader.ExcelReaderImpl;
+import Excel.Reader.ExcelReaderJXLApi;
 import jxl.read.biff.BiffException;
 
 import java.io.File;
@@ -36,19 +36,24 @@ public class LoaderKeywords {
     public void loadList(){
         File file = new File("ExampleFile.xls");
         try {
-            ExcelReader excelReader = new ExcelReaderImpl(file);
+            ExcelReader excelReader = new ExcelReaderJXLApi(file);
             List<String> titleList = excelReader.getAllTitle(SHEET_NAME);
             for (String title : titleList) {
-                if (title.equals(TITLE_NAME_TABLE)){
-                    this.tableList.addAll(excelReader.getColumn(SHEET_NAME, excelReader.getTitlePos(SHEET_NAME, TITLE_NAME_TABLE)));
-                }else if (title.equals(TITLE_NAME_CHAMPS)){
-                    this.champsList.addAll(excelReader.getColumn(SHEET_NAME, excelReader.getTitlePos(SHEET_NAME, TITLE_NAME_CHAMPS)));
-                }else if (title.equals(TITLE_NAME_CONDITION)){
-                    this.conditionList.addAll(excelReader.getColumn(SHEET_NAME, excelReader.getTitlePos(SHEET_NAME, TITLE_NAME_CONDITION)));
-                }else if (title.equals(TITLE_TYPE)){
-                    this.typeList.addAll(excelReader.getColumn(SHEET_NAME, excelReader.getTitlePos(SHEET_NAME, TITLE_TYPE)));
-                }else{
-                    throw new IllegalArgumentException("champs hors configuration!");
+                switch (title) {
+                    case TITLE_NAME_TABLE:
+                        this.tableList.addAll(excelReader.getColumn(SHEET_NAME, excelReader.getTitlePos(SHEET_NAME, TITLE_NAME_TABLE)));
+                        break;
+                    case TITLE_NAME_CHAMPS:
+                        this.champsList.addAll(excelReader.getColumn(SHEET_NAME, excelReader.getTitlePos(SHEET_NAME, TITLE_NAME_CHAMPS)));
+                        break;
+                    case TITLE_NAME_CONDITION:
+                        this.conditionList.addAll(excelReader.getColumn(SHEET_NAME, excelReader.getTitlePos(SHEET_NAME, TITLE_NAME_CONDITION)));
+                        break;
+                    case TITLE_TYPE:
+                        this.typeList.addAll(excelReader.getColumn(SHEET_NAME, excelReader.getTitlePos(SHEET_NAME, TITLE_TYPE)));
+                        break;
+                    default:
+                        throw new IllegalArgumentException("champs hors configuration!");
                 }
             }
         } catch (IOException e) {
@@ -59,19 +64,24 @@ public class LoaderKeywords {
     }
 
     public void loadList(File file) throws IOException, BiffException, IllegalArgumentException {
-        ExcelReader excelReader = new ExcelReaderImpl(file);
+        ExcelReader excelReader = new ExcelReaderJXLApi(file);
         List<String> titleList = excelReader.getAllTitle(SHEET_NAME);
         for (String title : titleList) {
-            if (title.equals(TITLE_NAME_TABLE)){
-                this.tableList.addAll(excelReader.getColumn(SHEET_NAME, excelReader.getTitlePos(SHEET_NAME, TITLE_NAME_TABLE)));
-            }else if (title.equals(TITLE_NAME_CHAMPS)){
-                this.champsList.addAll(excelReader.getColumn(SHEET_NAME, excelReader.getTitlePos(SHEET_NAME, TITLE_NAME_CHAMPS)));
-            }else if (title.equals(TITLE_NAME_CONDITION)){
-                this.conditionList.addAll(excelReader.getColumn(SHEET_NAME, excelReader.getTitlePos(SHEET_NAME, TITLE_NAME_CONDITION)));
-            }else if (title.equals(TITLE_TYPE)){
-                this.typeList.addAll(excelReader.getColumnUpper(SHEET_NAME, excelReader.getTitlePos(SHEET_NAME, TITLE_TYPE)));
-            }else{
-                throw new IllegalArgumentException("Invalid field '" + title + "'");
+            switch (title) {
+                case TITLE_NAME_TABLE:
+                    this.tableList.addAll(excelReader.getColumn(SHEET_NAME, excelReader.getTitlePos(SHEET_NAME, TITLE_NAME_TABLE)));
+                    break;
+                case TITLE_NAME_CHAMPS:
+                    this.champsList.addAll(excelReader.getColumn(SHEET_NAME, excelReader.getTitlePos(SHEET_NAME, TITLE_NAME_CHAMPS)));
+                    break;
+                case TITLE_NAME_CONDITION:
+                    this.conditionList.addAll(excelReader.getColumn(SHEET_NAME, excelReader.getTitlePos(SHEET_NAME, TITLE_NAME_CONDITION)));
+                    break;
+                case TITLE_TYPE:
+                    this.typeList.addAll(excelReader.getColumnUpper(SHEET_NAME, excelReader.getTitlePos(SHEET_NAME, TITLE_TYPE)));
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid field '" + title + "'");
             }
         }
     }

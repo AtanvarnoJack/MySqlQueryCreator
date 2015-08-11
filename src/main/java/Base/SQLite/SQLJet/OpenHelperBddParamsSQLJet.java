@@ -184,6 +184,15 @@ public class OpenHelperBddParamsSQLJet {
         return record;
     }
 
+    /**
+     * updateRecords
+     *
+     * @param db
+     * @param url
+     * @param user
+     * @param Password
+     * @throws SqlJetException
+     */
     protected void updateRecords(SqlJetDb db, String url, String user, String Password) throws SqlJetException {
         ISqlJetTable table = db.getTable(TABLE_PARAMS);
         db.beginTransaction(SqlJetTransactionMode.READ_ONLY);
@@ -195,6 +204,15 @@ public class OpenHelperBddParamsSQLJet {
         }
     }
 
+    /**
+     * update
+     * @param open
+     * @param url
+     * @param user
+     * @param Password
+     * @param table
+     * @throws SqlJetException
+     */
     private void update(ISqlJetCursor open, String url, String user, String Password, ISqlJetTable table) throws SqlJetException {
         ISqlJetCursor cursor = open;
         try {
@@ -210,6 +228,12 @@ public class OpenHelperBddParamsSQLJet {
         }
     }
 
+    /**
+     * deleteRecords
+     * @param db
+     * @param url
+     * @throws SqlJetException
+     */
     protected void deleteRecords(SqlJetDb db, String url) throws SqlJetException {
         ISqlJetTable table = db.getTable(TABLE_PARAMS);
         db.beginTransaction(SqlJetTransactionMode.READ_ONLY);
@@ -221,6 +245,12 @@ public class OpenHelperBddParamsSQLJet {
         }
     }
 
+    /**
+     * delete
+     * @param open
+     * @param url
+     * @throws SqlJetException
+     */
     private void delete(ISqlJetCursor open, String url) throws SqlJetException {
         ISqlJetCursor cursor = open;
         try {
