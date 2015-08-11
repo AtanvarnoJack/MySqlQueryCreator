@@ -17,8 +17,7 @@ import javafx.stage.WindowEvent;
 import jxl.read.biff.BiffException;
 
 import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -139,7 +138,20 @@ public class Home {
         } else {
             throw new IllegalArgumentException("Can't copy a null text!");
         }
+    }
 
+    protected String pastToClipboard() throws IllegalArgumentException, IOException, UnsupportedFlavorException {
+        String result = "";
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        //odd: the Object param of getContents is not currently used
+        Transferable contents = clipboard.getContents(null);
+        boolean hasTransferableText =
+                (contents != null) &&
+                        contents.isDataFlavorSupported(DataFlavor.stringFlavor);
+        if (hasTransferableText) {
+            result = (String) contents.getTransferData(DataFlavor.stringFlavor);
+        }
+        return result;
     }
 
     /**

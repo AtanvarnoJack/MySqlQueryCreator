@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 
 public class TestSqlTriggerCreate {
 
-
     @Test
     public void CanDoList(){
         SqlTrigger sqlTrigger = new SqlTrigger();
