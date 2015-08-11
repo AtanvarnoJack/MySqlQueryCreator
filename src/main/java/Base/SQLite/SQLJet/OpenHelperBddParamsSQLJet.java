@@ -67,7 +67,7 @@ public class OpenHelperBddParamsSQLJet {
      *
      * @throws SqlJetException
      */
-    public void createNewBase() throws SqlJetException {
+    protected void createNewBase() throws SqlJetException {
         dbFile = new File(DB_REPOSITORIES + DB_NAME);
         dbFile.delete();
 
@@ -88,7 +88,7 @@ public class OpenHelperBddParamsSQLJet {
      * @param db
      * @throws SqlJetException
      */
-    public void createTables(SqlJetDb db) throws SqlJetException {
+    protected void createTables(SqlJetDb db) throws SqlJetException {
         db.beginTransaction(SqlJetTransactionMode.WRITE);
         try {
             db.createTable("CREATE TABLE " + TABLE_PARAMS + " (" + TABLE_ROW_URL + " TEXT NOT NULL PRIMARY KEY, " + TABLE_ROW_USER + " TEXT NOT NULL," + TABLE_ROW_PASSWORD + " TEXT NOT NULL)\n");
@@ -107,7 +107,7 @@ public class OpenHelperBddParamsSQLJet {
      * @param user
      * @throws SqlJetException
      */
-    public void addRecordBase(SqlJetDb db, String url, String user, String password) throws SqlJetException {
+    protected void addRecordBase(SqlJetDb db, String url, String user, String password) throws SqlJetException {
         db.beginTransaction(SqlJetTransactionMode.WRITE);
         try {
             ISqlJetTable table = db.getTable(TABLE_PARAMS);
@@ -126,10 +126,10 @@ public class OpenHelperBddParamsSQLJet {
      * @return String
      * @throws SqlJetException
      */
-    public String getRecords(SqlJetDb db, String url) throws SqlJetException {
+    protected String[] getRecords(SqlJetDb db, String url) throws SqlJetException {
         ISqlJetTable table = db.getTable(TABLE_PARAMS);
         db.beginTransaction(SqlJetTransactionMode.READ_ONLY);
-        String found;
+        String[] found;
         try {
             found = printRecords(table.open(), url);
         } finally {
@@ -146,7 +146,7 @@ public class OpenHelperBddParamsSQLJet {
      * @return HashMap<String, List<String>>
      * @throws SqlJetException
      */
-    public HashMap<String, List<String>> getAllRecords(SqlJetDb db) throws SqlJetException {
+    protected HashMap<String, List<String>> getAllRecords(SqlJetDb db) throws SqlJetException {
         ISqlJetTable table = db.getTable(TABLE_PARAMS);
         db.beginTransaction(SqlJetTransactionMode.READ_ONLY);
         HashMap<String, List<String>> found;
@@ -167,14 +167,15 @@ public class OpenHelperBddParamsSQLJet {
      * @return String
      * @throws SqlJetException
      */
-    private String printRecords(ISqlJetCursor cursor, String key) throws SqlJetException {
-        String record = null;
+    private String[] printRecords(ISqlJetCursor cursor, String key) throws SqlJetException {
+        String[] record = new String[3];
         try {
             if (!cursor.eof()) {
                 do {
                     if (cursor.getString(TABLE_ROW_URL).equals(key)) {
-                        record = cursor.getString(TABLE_ROW_USER);
-                        record = record + ":" + cursor.getString(TABLE_ROW_PASSWORD);
+                        record[0] = cursor.getString(TABLE_ROW_URL);
+                        record[1] = cursor.getString(TABLE_ROW_USER);
+                        record[2] = cursor.getString(TABLE_ROW_PASSWORD);
                     }
                 } while (cursor.next());
             }
@@ -182,5 +183,57 @@ public class OpenHelperBddParamsSQLJet {
             cursor.close();
         }
         return record;
+    }
+
+    protected void updateRecords(SqlJetDb db, String url, String user, String Password) throws SqlJetException {
+        ISqlJetTable table = db.getTable(TABLE_PARAMS);
+        db.beginTransaction(SqlJetTransactionMode.READ_ONLY);
+        try {
+            update(table.open(), url, user, Password, table);
+        } finally {
+            db.commit();
+            db.close();
+        }
+    }
+
+    private void update(ISqlJetCursor open, String url, String user, String Password, ISqlJetTable table) throws SqlJetException {
+        ISqlJetCursor cursor = open;
+        try {
+            if (!cursor.eof()) {
+                do {
+                    if (cursor.getString(TABLE_ROW_URL).equals(url)) {
+                        cursor.update(url, user, Password);
+                    }
+                } while (cursor.next());
+            }
+        } finally {
+            cursor.close();
+        }
+    }
+
+    protected void deleteRecords(SqlJetDb db, String url) throws SqlJetException {
+        ISqlJetTable table = db.getTable(TABLE_PARAMS);
+        db.beginTransaction(SqlJetTransactionMode.READ_ONLY);
+        try {
+            delete(table.open(), url);
+        } finally {
+            db.commit();
+            db.close();
+        }
+    }
+
+    private void delete(ISqlJetCursor open, String url) throws SqlJetException {
+        ISqlJetCursor cursor = open;
+        try {
+            if (!cursor.eof()) {
+                do {
+                    if (cursor.getString(TABLE_ROW_URL).equals(url)) {
+                        cursor.delete();
+                    }
+                } while (cursor.next());
+            }
+        } finally {
+            cursor.close();
+        }
     }
 }
