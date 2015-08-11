@@ -1,6 +1,6 @@
 package View.Popup;
 
-import BDD.BaseConnect;
+import Base.Connection.BaseConnect;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

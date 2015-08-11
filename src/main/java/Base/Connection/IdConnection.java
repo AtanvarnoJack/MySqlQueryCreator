@@ -1,4 +1,4 @@
-package BDD;
+package Base.Connection;
 
 /**
  * Created by alco on 29/07/2015.

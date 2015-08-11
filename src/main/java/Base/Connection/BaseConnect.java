@@ -1,4 +1,4 @@
-package BDD;
+package Base.Connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -70,7 +70,6 @@ public class TestSQLJetParams {
     @Test
     public void canDeleteRecords() throws SqlJetException {
         BddParams bddParams = new BddParamsSQLJet();
-        String passwordFound = bddParams.getCryptPassForUrl(url);
         bddParams.deleteRecords("test");
         HashMap<String, List<String>> listRecordsFound = bddParams.getAllRecords();
         assertThat(listRecordsFound.size()).isEqualTo(1);
