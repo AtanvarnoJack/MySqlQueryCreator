@@ -1,6 +1,6 @@
 package View.Popup;
 
-import BDD.IdConnection;
+import Base.Connection.IdConnection;
 import View.Dialogs.Dialogs;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
