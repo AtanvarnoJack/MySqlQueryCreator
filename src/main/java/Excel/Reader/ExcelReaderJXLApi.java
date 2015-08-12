@@ -97,6 +97,23 @@ public class ExcelReaderJXLApi implements ExcelReader {
     }
 
     @Override
+    public List<String> getRow(String sheetName, int row) {
+        List<String> valueList = new ArrayList<String>();
+        Sheet sheet = workbook.getSheet(sheetName);
+        int numberColumns = sheet.getColumns();
+        for (int i = 1; i < numberColumns; i++) {
+            valueList.add(sheet.getCell(i, row).getContents().trim());
+        }
+        return valueList;
+    }
+
+    @Override
+    public String getColumnType(String sheetName, int column) {
+        Sheet sheet = workbook.getSheet(sheetName);
+        return sheet.getCell(column, 1).getType().toString();
+    }
+
+    @Override
     public List<String> getColumnUpper(String sheetName, int column) {
         List<String> valueList = new ArrayList<String>();
         Sheet sheet = workbook.getSheet(sheetName);
