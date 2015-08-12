@@ -88,6 +88,16 @@ public class ExcelReaderApachePOI implements ExcelReader {
     }
 
     @Override
+    public List<String> getRow(String sheetName, int row) {
+        return null;
+    }
+
+    @Override
+    public String getColumnType(String sheetName, int column) {
+        return null;
+    }
+
+    @Override
     public List<String> getColumnUpper(String sheetName, int column) {
         Sheet sheet = workbook.getSheet(sheetName);
         List<String> cellList = new ArrayList<>();

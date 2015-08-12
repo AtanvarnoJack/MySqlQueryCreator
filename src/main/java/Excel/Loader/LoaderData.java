@@ -1,7 +1,7 @@
 package Excel.Loader;
 
 import Excel.ExcelReader;
-import Excel.Reader.ExcelReaderImpl;
+import Excel.Reader.ExcelReaderJXLApi;
 import jxl.read.biff.BiffException;
 
 import java.io.File;
@@ -17,7 +17,7 @@ public class LoaderData {
     public LoaderData(String filename) {
         File file = new File(filename);
         try {
-            excelReader = new ExcelReaderImpl(file);
+            excelReader = new ExcelReaderJXLApi(file);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (BiffException e) {
