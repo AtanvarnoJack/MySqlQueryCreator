@@ -21,7 +21,7 @@ public class TestSqlTriggerCreate {
     @Test
     public void canFindArgsOnExcel() {
         LoaderKeywords loaderKeywords = new LoaderKeywords();
-        loaderKeywords.loadList();
+        loaderKeywords.loadListJXLApi();
         SqlTrigger sqlTrigger = new SqlTrigger();
 
         String chaine = sqlTrigger.toStringGetAll(loaderKeywords.getTableList(), loaderKeywords.getChampsList(), loaderKeywords.getConditionList(), 5.6);

@@ -117,7 +117,7 @@ public class TestExcelReader {
     @Test
     public void shouldLoadAllData(){
         LoaderKeywords loader = new LoaderKeywords();
-        loader.loadList();
+        loader.loadListJXLApi();
 
         List<String> tableListFound = loader.getTableList();
         List<String> champsListFound = loader.getChampsList();

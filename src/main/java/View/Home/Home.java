@@ -22,6 +22,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 
 /**
  * Created by alco on 27/07/2015.
@@ -112,7 +114,7 @@ public class Home {
 
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Excel files 97-2003 (*.xls)", "*.xls"),
-                new FileChooser.ExtensionFilter("Excel files (*.xlsx)", "*.xlsx"),
+                new FileChooser.ExtensionFilter("Excel files (*.xlsx), (*.xlsm)", "*.xlsx", "*.xlsm"),
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*")
         );
 
@@ -201,16 +203,21 @@ public class Home {
     protected String procedureCreateRequest(File file) throws IOException, BiffException, IllegalArgumentException {
         LoaderKeywords loaderKeywords = new LoaderKeywords();
         MainRequest mainRequest = new MySqlRequest(mySqlVersion);
-        loaderKeywords.loadList(file);
+        String[] splitFileName = file.getName().split("\\.");
 
-        java.util.List<String> typeListSort = sortByType(loaderKeywords.getTypeList());
+        if (splitFileName[1].equals("xls")) {
+            loaderKeywords.loadListJXLApi(file);
+        } else {
+            loaderKeywords.loadListApachePOI(file);
+        }
 
-        java.util.List<String> typeList = loaderKeywords.getTypeList();
-        java.util.List<String> tableList = loaderKeywords.getTableList();
-        java.util.List<String> champsList = loaderKeywords.getChampsList();
-        java.util.List<String> conditionList = loaderKeywords.getConditionList();
+        List<String> typeListSort = sortByType(loaderKeywords.getTypeList());
+        List<String> typeList = loaderKeywords.getTypeList();
+        List<String> tableList = loaderKeywords.getTableList();
+        List<String> champsList = loaderKeywords.getChampsList();
+        List<String> conditionList = loaderKeywords.getConditionList();
 
-        java.util.List<String> allRequestList = mainRequest.createAllRequest(typeListSort, typeList, tableList, champsList, conditionList);
+        List<String> allRequestList = mainRequest.createAllRequest(typeListSort, typeList, tableList, champsList, conditionList);
         Date date = new Date();
         String allRequest = "/**************************************************\n" +
                 "*  Request created by " + APP_TITLE + "!\n" +

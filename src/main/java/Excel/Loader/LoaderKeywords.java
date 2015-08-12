@@ -1,6 +1,7 @@
 package Excel.Loader;
 
 import Excel.ExcelReader;
+import Excel.Reader.ExcelReaderApachePOI;
 import Excel.Reader.ExcelReaderJXLApi;
 import jxl.read.biff.BiffException;
 
@@ -33,7 +34,7 @@ public class LoaderKeywords {
         this.conditionList = conditionList;
     }
 
-    public void loadList(){
+    public void loadListJXLApi() {
         File file = new File("ExampleFile.xls");
         try {
             ExcelReader excelReader = new ExcelReaderJXLApi(file);
@@ -63,8 +64,31 @@ public class LoaderKeywords {
         }
     }
 
-    public void loadList(File file) throws IOException, BiffException, IllegalArgumentException {
+    public void loadListJXLApi(File file) throws IOException, BiffException, IllegalArgumentException {
         ExcelReader excelReader = new ExcelReaderJXLApi(file);
+        List<String> titleList = excelReader.getAllTitle(SHEET_NAME);
+        for (String title : titleList) {
+            switch (title) {
+                case TITLE_NAME_TABLE:
+                    this.tableList.addAll(excelReader.getColumn(SHEET_NAME, excelReader.getTitlePos(SHEET_NAME, TITLE_NAME_TABLE)));
+                    break;
+                case TITLE_NAME_CHAMPS:
+                    this.champsList.addAll(excelReader.getColumn(SHEET_NAME, excelReader.getTitlePos(SHEET_NAME, TITLE_NAME_CHAMPS)));
+                    break;
+                case TITLE_NAME_CONDITION:
+                    this.conditionList.addAll(excelReader.getColumn(SHEET_NAME, excelReader.getTitlePos(SHEET_NAME, TITLE_NAME_CONDITION)));
+                    break;
+                case TITLE_TYPE:
+                    this.typeList.addAll(excelReader.getColumnUpper(SHEET_NAME, excelReader.getTitlePos(SHEET_NAME, TITLE_TYPE)));
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid field '" + title + "'");
+            }
+        }
+    }
+
+    public void loadListApachePOI(File file) throws IOException, BiffException, IllegalArgumentException {
+        ExcelReader excelReader = new ExcelReaderApachePOI(file.getPath());
         List<String> titleList = excelReader.getAllTitle(SHEET_NAME);
         for (String title : titleList) {
             switch (title) {
