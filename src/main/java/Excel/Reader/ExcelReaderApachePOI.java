@@ -89,7 +89,16 @@ public class ExcelReaderApachePOI implements ExcelReader {
 
     @Override
     public List<String> getRow(String sheetName, int row) {
-        return null;
+        Sheet sheet = workbook.getSheet(sheetName);
+        List<String> cellList = new ArrayList<>();
+        for (int i = 0; i < sheet.getRow(row).getLastCellNum(); i++) {
+            try{
+                cellList.add(sheet.getRow(row).getCell(i).toString().trim());
+            }catch(NullPointerException NPE){
+                return cellList;
+            }
+        }
+        return cellList;
     }
 
     @Override
