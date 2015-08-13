@@ -207,8 +207,10 @@ public class Home {
 
         if (splitFileName[1].equals("xls")) {
             loaderKeywords.loadListJXLApi(file);
-        } else {
+        } else if (splitFileName[1].equals("xlsx") || splitFileName[1].equals("xlsm")){
             loaderKeywords.loadListApachePOI(file);
+        }else {
+            throw new IllegalArgumentException("Bad format file!");
         }
 
         List<String> typeListSort = sortByType(loaderKeywords.getTypeList());
